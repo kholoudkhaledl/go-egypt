@@ -1,3 +1,8 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,10 +27,29 @@
                 <li><a href="#">About</a></li>
             </ul>
 
-            <div class="buttons">
-                <button>Login</button>
-                <button>Sign Up</button>
-            </div>
+<div class="buttons">
+
+<?php if(isset($_SESSION['user_id'])) { ?>
+
+    <span>Welcome, <?php echo $_SESSION['user_name']; ?></span>
+
+    <a href="action/logout.php">
+        <button>Logout</button>
+    </a>
+
+<?php } else { ?>
+
+    <a href="pages/login.php">
+        <button>Login</button>
+    </a>
+
+    <a href="pages/register.php">
+        <button>Sign Up</button>
+    </a>
+
+<?php } ?>
+
+</div>
 
         </nav>
     </header>
