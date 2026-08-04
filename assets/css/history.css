@@ -1,0 +1,491 @@
+ /* ==========================
+   RESET
+========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f8f3e7;
+    color:#444;
+}
+
+/* ==========================
+   NAVBAR
+========================== */
+
+.navbar{
+
+    height:75px;
+
+    background:#f8f3e7;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 70px;
+
+    border-bottom:1px solid #e8dcc0;
+
+}
+
+.logo{
+
+    font-size:40px;
+
+    font-family:'Cinzel',serif;
+
+    color:#4b3c22;
+
+    font-weight:bold;
+
+}
+
+.logo span{
+
+    color:#c69a2b;
+
+}
+
+.navbar ul{
+
+    display:flex;
+
+    list-style:none;
+
+    gap:40px;
+
+}
+
+.navbar a{
+
+    text-decoration:none;
+
+    color:#4b3c22;
+
+    font-weight:500;
+
+    transition:.3s;
+
+}
+
+.navbar a:hover{
+
+    color:#c69a2b;
+
+}
+
+/* ==========================
+   HERO
+========================== */
+
+.hero{
+
+    display:flex;
+
+    height:90vh;
+
+}
+
+/* الصورة */
+
+.hero-left{
+
+    width:72%;
+
+    background:url("../../images/background.jpeg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    position:relative;
+
+}
+
+/* Fade */
+
+.hero-left::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:0;
+
+    left:0;
+
+    width:100%;
+
+    height:220px;
+
+    background:linear-gradient(
+
+        transparent,
+
+        #f8f3e7
+
+    );
+
+}
+
+/* الجزء البني */
+
+.hero-right{
+
+    width:28%;
+
+    background:#3d3425;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:50px;
+
+}
+
+/* الكلام */
+
+.hero-content{
+
+    text-align:center;
+
+}
+
+.hero-content h1{
+
+    font-size:60px;
+
+    color:#d4af37;
+
+    line-height:1.15;
+
+    font-family:'Cinzel',serif;
+
+    margin-bottom:25px;
+
+}
+
+.hero-content p{
+
+    color:#ddd;
+
+    font-size:18px;
+
+    line-height:1.8;
+
+}
+
+/* ==========================
+   INTRO
+========================== */
+
+.intro{
+
+    width:75%;
+
+    margin:auto;
+
+    text-align:center;
+
+    padding:80px 0;
+
+}
+
+.tag{
+
+    display:inline-block;
+
+    background:#a55d2c;
+
+    color:white;
+
+    padding:8px 20px;
+
+    border-radius:30px;
+
+    font-size:14px;
+
+    margin-bottom:20px;
+
+}
+
+.intro h2{
+
+    font-size:46px;
+
+    color:#6e5524;
+
+    font-family:'Cinzel',serif;
+
+    margin:25px 0;
+
+}
+
+.intro p{
+
+    color:#666;
+
+    line-height:1.8;
+
+}
+
+/* ==========================
+   TITLE
+========================== */
+
+.section-title{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 90px;
+
+    margin-bottom:40px;
+
+}
+
+.section-title h2{
+
+    font-size:42px;
+
+    font-family:'Cinzel',serif;
+
+    color:#6e5524;
+
+}
+
+.arrows{
+
+    display:flex;
+
+    gap:15px;
+
+}
+
+.arrows span{
+
+    width:45px;
+
+    height:45px;
+
+    border:1px solid #caa857;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    color:#b78f2d;
+
+    font-size:20px;
+
+    transition:.3s;
+
+}
+
+.arrows span:hover{
+
+    background:#c69a2b;
+
+    color:white;
+
+}
+
+/* ==========================
+   CARDS
+========================== */
+
+.pharaohs{
+
+    padding-bottom:80px;
+
+}
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:25px;
+
+    padding:0 90px;
+
+}
+
+.card{
+
+    background:white;
+
+    border:1px solid #e7d8b6;
+
+    transition:.35s;
+
+    overflow:hidden;
+
+}
+
+.card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:0 15px 30px rgba(0,0,0,.15);
+
+}
+
+.card img{
+
+    width:100%;
+
+    height:260px;
+
+    object-fit:cover;
+
+}
+
+.card-body{
+
+    padding:22px;
+
+}
+
+.card-body small{
+
+    color:#b9812d;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+}
+
+.card-body h3{
+
+    margin:12px 0;
+
+    color:#6e5524;
+
+    font-family:'Cinzel',serif;
+
+    font-size:28px;
+
+}
+
+.card-body p{
+
+    color:#666;
+
+    line-height:1.7;
+
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:1100px){
+
+.hero{
+
+flex-direction:column;
+
+height:auto;
+
+}
+
+.hero-left,
+
+.hero-right{
+
+width:100%;
+
+}
+
+.hero-left{
+
+height:500px;
+
+}
+
+.cards{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media(max-width:700px){
+
+.navbar{
+
+padding:20px;
+
+flex-direction:column;
+
+height:auto;
+
+gap:20px;
+
+}
+
+.navbar ul{
+
+gap:20px;
+
+flex-wrap:wrap;
+
+justify-content:center;
+
+}
+
+.cards{
+
+grid-template-columns:1fr;
+
+padding:20px;
+
+}
+
+.section-title{
+
+padding:20px;
+
+flex-direction:column;
+
+gap:20px;
+
+}
+
+.intro{
+
+width:90%;
+
+}
+
+.hero-content h1{
+
+font-size:42px;
+
+}
+
+}

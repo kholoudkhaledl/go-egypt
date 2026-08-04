@@ -2,12 +2,14 @@
 <html lang="en">
 
 <head>
-    <?php include 'include/head.php'; ?>
-    <?php include 'include/header.php'; ?>
-     
+   <?php include "include/head.php"; ?>
+   <link rel="stylesheet" href="assets/css/footer.css">
+   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
+    <?php include "include/header.php";?>
+    
     <!-- Hero Section -->
     <section class="hero">
 
@@ -32,5 +34,6 @@
     </div>
 
 </section>
+   <?php include "include/footer.php"; ?>  
 </body>
 </html>
