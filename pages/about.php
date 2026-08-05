@@ -179,7 +179,7 @@
     <div class="cta-banner-content">
         <h2 class="cta-title">Ready to Explore Egypt?</h2>
         <p class="cta-desc">Find your next destination and start your journey today.</p>
-        <a href="explore.php" class="cta-btn">
+        <a href="landmarks.php" class="cta-btn">
             Explore Destinations 
             <i class="ri-arrow-right-line"></i>
         </a>
