@@ -340,7 +340,9 @@
         
     </main>
 
-<?php include 'include/footer.php'; ?>
+<?php 
+include 'include/footer.php';
+ ?>
     <!-- JavaScript -->
     <script src="assets/js/main.js"></script>
 

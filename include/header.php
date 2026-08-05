@@ -1,5 +1,3 @@
-
-
 <!-- Navbar -->
 <header class="header">
     <nav>
@@ -28,7 +26,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <li><a href="/go-egypt/pages/about.php" class="<?php echo ($current_page == 'about.php') ? 'active' : ''; ?>">About</a></li>
 </ul>
         <div class="buttons">
-            <button>Login</button>
+            <button onclick="location.href='/go-egypt/pages/login.php'">Login</button>
             <button>Sign Up</button>
         </div>
 
