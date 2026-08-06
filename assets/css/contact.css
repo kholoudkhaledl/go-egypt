@@ -1,0 +1,203 @@
+/* ================= HERO ================= */
+
+.contact-hero{
+
+    height:420px;
+    background:url("../images/bg-contact.jpeg") center center/cover no-repeat;
+    position:relative;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+}
+
+.overlay{
+
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.55);
+
+}
+
+.hero-content{
+
+    position:relative;
+    z-index:2;
+
+    color:#fff;
+
+    width:80%;
+    max-width:700px;
+
+}
+
+.hero-content p{
+
+    color:#d4af37;
+    letter-spacing:2px;
+    margin-bottom:15px;
+    font-size:14px;
+
+}
+
+.hero-content h1{
+
+    font-family:'Cinzel',serif;
+    font-size:55px;
+    margin-bottom:20px;
+
+}
+
+.hero-content span{
+
+    font-size:17px;
+    line-height:1.8;
+
+}
+
+
+/* ================= CONTACT ================= */
+
+.contact-section{
+
+    background:#f7f3eb;
+    padding:80px 20px;
+
+}
+
+.contact-box{
+
+    width:100%;
+    max-width:700px;
+
+    margin:auto;
+
+    background:#fff;
+
+    padding:40px;
+
+    border-radius:15px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+}
+
+.contact-box h2{
+
+    font-family:'Cinzel',serif;
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+    color:#222;
+
+}
+
+.input-box{
+
+    margin-bottom:20px;
+
+}
+
+input,
+select,
+textarea{
+
+    width:100%;
+
+    padding:15px;
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+    background:#fafafa;
+
+    transition:.3s;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+    outline:none;
+
+    border-color:#d4af37;
+
+    box-shadow:0 0 8px rgba(212,175,55,.3);
+
+}
+
+textarea{
+
+    height:170px;
+
+    resize:none;
+
+}
+
+button{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#d4af37;
+
+    color:#fff;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#b88d1c;
+
+}
+
+
+/* ================= Responsive ================= */
+
+@media(max-width:768px){
+
+.contact-hero{
+
+    height:330px;
+
+}
+
+.hero-content h1{
+
+    font-size:38px;
+
+}
+
+.hero-content span{
+
+    font-size:15px;
+
+}
+
+.contact-box{
+
+    padding:25px;
+
+}
+
+}
