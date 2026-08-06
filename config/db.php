@@ -1,16 +1,13 @@
 <?php
 
 $host = "localhost";
-$username = "root";
-$password = "";
-$database = "go_egypt";
+$user = "root";
+$password = ""; 
+$dbname = "go_egypt";
 
-$conn = mysqli_connect($host, $username, $password, $database);
+$conn = new mysqli($host, $user, $password, $dbname);
 
-if (!$conn) {
-    die("Connection Failed: " . mysqli_connect_error());
+if ($conn->connect_error) {
+    die(json_encode(["error" => "connection failed : " . $conn->connect_error]));
 }
-
-echo "Database Connected Successfully";
-
 ?>
