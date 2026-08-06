@@ -92,7 +92,6 @@ include '../include/header.php';
 <div class="section-divider"></div>
 
 <!-- Traveler Tips & Guidelines Section -->
-
 <section class="tips-section">
     <div class="tips-container">
         
@@ -137,7 +136,9 @@ include '../include/header.php';
         </div>
     </div>
 </section>
+
 <?php include '../include/footer.php'; ?>
+
 <script>
 async function fetchDestinations() {
     const selectedCategory = document.querySelector('input[name="category"]:checked').value;

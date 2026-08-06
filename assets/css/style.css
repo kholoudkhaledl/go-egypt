@@ -1035,4 +1035,41 @@ nav {
     }
 }
 
+
+/*--- Custom Scroll Animations --- */
+
+
+
+.animate-fade-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.animate-fade-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.animate-fade-right.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.section-title {
+    position: relative;
+}
+
+.animate-on-scroll {
+    opacity: 0 !important;
+    transform: translateY(40px) !important;
+    transition: all 0.8s ease-out !important;
+}
+
+.animate-on-scroll.is-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
 /* ---------------------------------------------------------footer------------------------------------------------------------------ */
