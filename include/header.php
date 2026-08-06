@@ -36,7 +36,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </nav>
 </header>
 
-<<<<<<< HEAD
             <ul>
                 <li><a href="#">Home</a></li>
                 <li><a href="#">Explore</a></li>
@@ -72,5 +71,3 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
         </nav>
     </header>
-=======
->>>>>>> main
