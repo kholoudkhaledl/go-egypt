@@ -1,17 +1,16 @@
+<?php 
+    session_start();
+
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
+
 <!-- Navbar -->
 <header class="header">
     <nav>
         <a href="#" class="logo">
             <div class="logo-icon">
-                <!-- <i class="ri-ancient-gate-line"></i> -->
-                <!-- <i class="fas fa-ankh"></i> -->
-                <!-- <i class="fas fa-landmark"></i> -->
-                <!-- <i class="fas fa-mountain"></i> -->
-                 <i class="ri-landscape-line"></i>
-                  <!-- <i class="bi bi-triangle-half"></i> أو -->
-                <!-- <i class="bi bi-mountain"></i> -->
-                <!-- <i class="material-icons">landscape</i> -->
-        </div>
+                <i class="ri-landscape-line"></i>
+            </div>
             <h2>GO EGYPT</h2>
         </a>
 <?php 
