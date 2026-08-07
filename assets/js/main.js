@@ -255,30 +255,6 @@ nextBtn.addEventListener("click", () => {
   clearInterval(timer);
   timer = setInterval(updateFact, 3000);
 });
-// -----------------------animation-----------------------------
-document.addEventListener("DOMContentLoaded", function () {
-    const animatedElements = document.querySelectorAll(
-        ".animate-on-scroll, .animate-fade-left, .animate-fade-right"
-    );
 
-    const observerOptions = {
-        root: null,
-        rootMargin: "0px",
-        threshold: 0.15
-    };
 
-    const observerCallback = (entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isintersecting || entry.isIntersecting) {
-                entry.target.classList.add("is-visible");
-                observer.unobserve(entry.target);
-            }
-        });
-    };
 
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-    animatedElements.forEach(element => {
-        observer.observe(element);
-    });
-});

@@ -10,8 +10,8 @@
 <body>
 
     <main id="home">
-        <!-- Hero Section -->
-        <section class="hero animate-on-scroll">
+        <!-- Hero Section  -->
+        <section  class="hero">
             <video autoplay muted loop playsinline>
                 <source src="assets/videos/video home.mp4" type="video/mp4">
             </video>
@@ -25,8 +25,8 @@
                         Plan your unforgettable journey with absolute ease.
                     </p>
                             <div class="butt">
-                    <button type="button" class="butt1">Explore</button>
-                    <button type="button" class="butt2">Plan Trip</button>
+                    <button type="button" class="butt1" onclick="document.getElementById('explore').scrollIntoView({behavior: 'smooth'})">Explore</button>
+                    <button type="button" class="butt2" onclick="window.location.href='pages/history.php'"> Our Legacy </button>
                 </div>
             </div>
         </section>
@@ -37,7 +37,7 @@
 
                 <!-- Section Header with Gradient Style -->
 
-                        <header class="text-center mb-5 position-relative container animate-on-scroll">
+                        <header class="text-center mb-5 position-relative container">
                             <span class="section-subtitle text-uppercase fw-bold">Top Destinations</span>
                             <h2 class="section-title fw-bold display-5">EXPLORE THE WONDERS OF EGYPT</h2>
                             <div class="header-divider d-flex align-items-center justify-content-center mt-3">
@@ -60,7 +60,7 @@
                         <div class="d-flex destinations-track">
                             
                             <!-- Card 1 -->
-                            <article class="destination-item flex-shrink-0 animate-on-scroll">
+                            <article class="destination-item flex-shrink-0">
                                 <div class="destination-card rounded-4 overflow-hidden position-relative shadow-lg">
                                     <div class="card-bg" style="background-image: url('assets/images/giza-home.webp');"></div>
                                     <div class="card-overlay position-absolute w-100 h-100 d-flex flex-column justify-content-between p-4">
@@ -70,19 +70,18 @@
                                         <div class="card-content">
                                             <h3 class="text-white fs-4 fw-bold mb-2">GIZA PYRAMIDS</h3>
                                             <p class="text-light small mb-3 opacity-90">The Last Wonder of the Ancient World standing tall through millennia.</p>
-                                                <a href="pages/landmarks.php" class="text-warning text-decoration-none fw-bold small explore-link">
-                                                    Landmarks <i class="ri-arrow-right-line ms-1" aria-hidden="true"></i>
-                                                </a>
-                                        
+                                            <a href="pages/landmarks.php" class="text-warning text-decoration-none fw-bold small explore-link">
+                                                landmarks <i class="ri-arrow-right-line ms-1" aria-hidden="true"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </article>
 
                             <!-- Card 2 -->
-                            <article class="destination-item flex-shrink-0 animate-on-scroll">
+                            <article class="destination-item flex-shrink-0">
                                 <div class="destination-card rounded-4 overflow-hidden position-relative shadow-lg">
-                                    <div class="card-bg" style="background-image: url('assets/images/luxor--home.jpg');"></div>
+                                    <div class="card-bg" style="background-image: url('assets/images/luxor-home.jpg');"></div>
                                     <div class="card-overlay position-absolute w-100 h-100 d-flex flex-column justify-content-between p-4">
                                         <div class="icon-box align-self-end text-warning bg-white bg-opacity-75 p-2 rounded-circle shadow-sm">
                                             <i class="ri-bank-line fs-5" aria-hidden="true"></i>
@@ -90,17 +89,16 @@
                                         <div class="card-content">
                                             <h3 class="text-white fs-4 fw-bold mb-2">LUXOR TEMPLE</h3>
                                             <p class="text-light small mb-3 opacity-90">The World's Greatest Open Air Museum in the heart of ancient Thebes.</p>
-                                                <a href="pages/landmarks.php" class="text-warning text-decoration-none fw-bold small explore-link">
-                                                    Landmarks <i class="ri-arrow-right-line ms-1" aria-hidden="true"></i>
-                                                </a>
-                                        
+                                            <a href="pages/landmarks.php" class="text-warning text-decoration-none fw-bold small explore-link">
+                                                landmarks <i class="ri-arrow-right-line ms-1" aria-hidden="true"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </article>
 
                             <!-- Card 3 -->
-                            <article class="destination-item flex-shrink-0 animate-on-scroll">
+                            <article class="destination-item flex-shrink-0">
                                 <div class="destination-card rounded-4 overflow-hidden position-relative shadow-lg">
                                     <div class="card-bg" style="background-image: url('assets/images/simbel-home.jpeg');"></div>
                                     <div class="card-overlay position-absolute w-100 h-100 d-flex flex-column justify-content-between p-4">
@@ -110,17 +108,16 @@
                                         <div class="card-content">
                                             <h3 class="text-white fs-4 fw-bold mb-2">ABU SIMBEL</h3>
                                             <p class="text-light small mb-3 opacity-90">A Masterpiece Carved in the Mountain honoring Ramses the Great.</p>
-                                                <a href="pages/landmarks.php" class="text-warning text-decoration-none fw-bold small explore-link">
-                                                    Landmarks <i class="ri-arrow-right-line ms-1" aria-hidden="true"></i>
-                                                </a>
-                                        
+                                            <a href="pages/landmarks.php" class="text-warning text-decoration-none fw-bold small explore-link">
+                                                landmarks <i class="ri-arrow-right-line ms-1" aria-hidden="true"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </article>
 
                             <!-- Card 4 -->
-                            <article class="destination-item flex-shrink-0 animate-on-scroll">
+                            <article class="destination-item flex-shrink-0">
                                 <div class="destination-card rounded-4 overflow-hidden position-relative shadow-lg">
                                     <div class="card-bg" style="background-image: url('assets/images/Alexandria-home.jpg');"></div>
                                     <div class="card-overlay position-absolute w-100 h-100 d-flex flex-column justify-content-between p-4">
@@ -130,16 +127,16 @@
                                         <div class="card-content">
                                             <h3 class="text-white fs-4 fw-bold mb-2">ALEXANDRIA</h3>
                                             <p class="text-light small mb-3 opacity-90">The Bride of the Mediterranean where ancient history meets coastal beauty.</p>
-                                                <a href="pages/landmarks.php" class="text-warning text-decoration-none fw-bold small explore-link">
-                                                    Landmarks <i class="ri-arrow-right-line ms-1" aria-hidden="true"></i>
-                                                </a>
+                                            <a href="pages/landmarks.php" class="text-warning text-decoration-none fw-bold small explore-link">
+                                                landmarks <i class="ri-arrow-right-line ms-1" aria-hidden="true"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </article>
 
                             <!-- Card 5 -->
-                            <article class="destination-item flex-shrink-0 animate-on-scroll">
+                            <article class="destination-item flex-shrink-0">
                                 <div class="destination-card rounded-4 overflow-hidden position-relative shadow-lg">
                                     <div class="card-bg" style="background-image: url('assets/images/Redsea-home.webp');"></div>
                                     <div class="card-overlay position-absolute w-100 h-100 d-flex flex-column justify-content-between p-4">
@@ -150,7 +147,7 @@
                                             <h3 class="text-white fs-4 fw-bold mb-2">RED SEA</h3>
                                             <p class="text-light small mb-3 opacity-90">Crystal clear waters, vibrant coral reefs, and magical moments.</p>
                                             <a href="pages/landmarks.php" class="text-warning text-decoration-none fw-bold small explore-link">
-                                                Landmarks <i class="ri-arrow-right-line ms-1" aria-hidden="true"></i>
+                                                landmarks <i class="ri-arrow-right-line ms-1" aria-hidden="true"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -169,7 +166,6 @@
 
                 <!-- Slider Dots -->
                 <div class="slider-dots d-flex justify-content-center align-items-center gap-2 mt-4">
-                    
                 </div>
 
             </div>
@@ -282,7 +278,6 @@
     </div>
 </section>
 
-
 <!------------------------------------------------------------------ -->
       <!-- --- Did You Know? Section --- -->
        <section id="did-you-know" class="did-you-know-section">
@@ -335,13 +330,12 @@
             </div>
         </section>
 
-
-
+        
     </main>
 
 <?php 
 include 'include/footer.php';
-?>
+ ?>
     <!-- JavaScript -->
     <script src="assets/js/main.js"></script>
 

@@ -34,7 +34,7 @@ include '../include/header.php';
                     <span>Ancient Egypt</span>
                 </label>
                 <label class="pill-item">
-                    <input type="radio" name="category" value="Islamic & Coptic Cairo" onchange="fetchDestinations()">
+                    <input type="radio" name="category" value="Islamic & Coptic" onchange="fetchDestinations()">
                     <span>Islamic & Coptic</span>
                 </label>
                 <label class="pill-item">
@@ -92,6 +92,7 @@ include '../include/header.php';
 <div class="section-divider"></div>
 
 <!-- Traveler Tips & Guidelines Section -->
+
 <section class="tips-section">
     <div class="tips-container">
         
@@ -136,21 +137,7 @@ include '../include/header.php';
         </div>
     </div>
 </section>
-
 <?php include '../include/footer.php'; ?>
-
-<script>
-async function fetchDestinations() {
-    const selectedCategory = document.querySelector('input[name="category"]:checked').value;
-    const selectedRegion   = document.querySelector('input[name="region"]:checked').value;
-
-    const response = await fetch(`../action/get_destination.php?category=${encodeURIComponent(selectedCategory)}&region=${encodeURIComponent(selectedRegion)}`);
-    const htmlData = await response.text();
-    document.getElementById('cards-container').innerHTML = htmlData;
-}
-
-fetchDestinations();
-</script>
-
+<script src="../assets/js/landmark.js"></script>
 </body>
 </html>
