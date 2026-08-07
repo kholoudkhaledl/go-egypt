@@ -1,0 +1,308 @@
+/* - RESET - */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f8f3e7;
+    color: #444;
+}
+
+.history-page {
+    padding-top: 70px;
+}
+
+/* - HERO - */
+
+.hero {
+    display: flex;
+    height: 90vh;
+}
+
+.hero-left {
+    width: 72%;
+    background: url("../images/history-hero.jpeg");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    animation: fadeInImage 1.2s ease-out;
+}
+
+.hero-left::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 220px;
+    background: linear-gradient(transparent, #f8f3e7);
+}
+
+.hero-right {
+    width: 28%;
+    background: #3d3425;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    animation: slideInRight 1s ease-out;
+}
+
+.hero-content {
+    text-align: center;
+    animation: fadeInUp 1.2s ease-out;
+}
+
+.hero-content h1 {
+    font-size: 60px;
+    color: #d4af37;
+    line-height: 1.15;
+    font-family: 'Cinzel', serif;
+    margin-bottom: 25px;
+}
+
+.hero-content p {
+    color: #ddd;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+/* - INTRO - */
+
+.intro {
+    width: 75%;
+    margin: auto;
+    text-align: center;
+    padding: 80px 0;
+}
+
+.tag {
+    display: inline-block;
+    background: #a55d2c;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.intro h2 {
+    font-size: 46px;
+    color: #6e5524;
+    font-family: 'Cinzel', serif;
+    margin: 25px 0;
+}
+
+.intro p {
+    color: #666;
+    line-height: 1.8;
+}
+
+/* - TITLE - */
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 90px;
+    margin-bottom: 40px;
+}
+
+.section-title h2 {
+    font-size: 42px;
+    font-family: 'Cinzel', serif;
+    color: #6e5524;
+}
+
+/* - CARDS - */
+
+.pharaohs {
+    padding-bottom: 80px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    padding: 0 90px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #e7d8b6;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUpCard 0.8s ease forwards;
+    transition: .35s;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+}
+
+.card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* .card:hover {
+
+    transform: translateY(-10px);
+
+    box-shadow: 0 15px 30px rgba(0, 0, 0, .15);
+
+} */
+
+.card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.card:hover img {
+    transform: scale(1.08);
+}
+
+.card-body {
+    padding: 22px;
+}
+
+.card-body small {
+    color: #b9812d;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-body h3 {
+    margin: 12px 0;
+    color: #6e5524;
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+}
+
+.card-body p {
+    color: #666;
+    line-height: 1.7;
+}
+
+/* - ANIMATIONS - */
+
+@keyframes fadeInImage {
+    from {
+        opacity: 0;
+        filter: blur(5px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUpCard {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* - RESPONSIVE - */
+
+@media(max-width:1100px) {
+    .hero {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .hero-left,
+    .hero-right {
+        width: 100%;
+    }
+
+    .hero-left {
+        height: 500px;
+    }
+
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width:700px) {
+    .navbar {
+        padding: 20px;
+        flex-direction: column;
+        height: auto;
+        gap: 20px;
+    }
+
+    .navbar ul {
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+
+    .section-title {
+        padding: 20px;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .intro {
+        width: 90%;
+    }
+
+    .hero-content h1 {
+        font-size: 42px;
+    }
+}
