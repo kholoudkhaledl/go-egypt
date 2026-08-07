@@ -255,3 +255,6 @@ nextBtn.addEventListener("click", () => {
   clearInterval(timer);
   timer = setInterval(updateFact, 3000);
 });
+
+
+

@@ -46,22 +46,23 @@ if ($region && $region !== 'ALL') {
 }
 
 $result = $conn->query($sql);
-
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
     echo "
     <div class='col-md-3 mb-3'>
-       <div class='card'>
-       <img src='" . htmlspecialchars($row['img_url']) . "' alt='" . htmlspecialchars($row['title']) . "'>
-       <div class='card-overlay'>
-        <span class='badge'>" . htmlspecialchars($row['category']) . "</span>
-        <h3 class='card-title'>" . htmlspecialchars($row['title']) . "</h3>
-        <p class='card-desc'>" . htmlspecialchars($row['description']) . "</p>
-    </div>
-    </div>
+        <div class='card' style='cursor: pointer;' onclick=\"window.location.href='details.php?id=" . $row['id'] . "';\">
+            <img src='" . htmlspecialchars($row['img_url']) . "' alt='" . htmlspecialchars($row['title']) . "'>
+            <div class='card-overlay'>
+                <span class='badge'>" . htmlspecialchars($row['category']) . "</span>
+                <h3 class='card-title'>" . htmlspecialchars($row['title']) . "</h3>
+                <p class='card-desc'>" . htmlspecialchars($row['description']) . "</p>
+            </div>
+        </div>
     </div>";
     }
-} else {
+}
+
+else {
     echo "<p class='no-result'>No results found matching your filters .</p>";
 }
 

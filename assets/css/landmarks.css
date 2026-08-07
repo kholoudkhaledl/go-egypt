@@ -11,6 +11,22 @@ body {
     padding-top: 140px !important;
 }
 
+body {
+    animation: pageFadeIn 1s ease-out forwards;
+}
+
+@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 h1 {
     margin-bottom: 20px;
     font-weight: 500;
@@ -32,6 +48,10 @@ h1 {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
     border: 1px solid #eee8dd !important;
     height: fit-content;
+    position: sticky;
+    top: 70px;
+    z-index: 10;
+    animation: slideInLeft 1s ease-out forwards;
 }
 
 .sidebar-title {
@@ -76,6 +96,7 @@ h1 {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .pill-item:hover span {
@@ -89,6 +110,7 @@ h1 {
     border-color: #8c734b !important;
     font-weight: 600;
     box-shadow: 0 3px 8px rgba(140, 115, 75, 0.25);
+    transform: scale(1.05);
 }
 
 /* Cards Grid Styles */
@@ -97,6 +119,29 @@ h1 {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 24px;
+    animation: fadeIn 1.5s ease-out forwards;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .card {
@@ -174,6 +219,7 @@ h1 {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
 .no-result {
     grid-column: 1 / -1;
     text-align: center;
