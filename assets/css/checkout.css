@@ -1,0 +1,194 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #FAF4ED;
+    margin: 0;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    color: #533F00;
+    margin-bottom: 30px;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+    max-width: 950px;
+    margin: 0 auto;
+}
+
+.left-side {
+    flex: 2;
+}
+
+.right-side {
+    flex: 1;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #533F00;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.row {
+    display: flex;
+    gap: 10px;
+}
+
+.payment-box {
+    position: relative;
+    border: 1px solid #EFEAE4;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    background-color: #FFFFFF;
+    transition: all 0.3s ease;
+}
+
+.payment-body {
+    display: none;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #F6F1EA;
+}
+
+.payment-box input[type="radio"]:checked~.payment-body {
+    display: block;
+}
+
+.payment-box input[type="radio"] {
+    position: absolute;
+    top: 18px;
+    left: 16px;
+    accent-color: #533F00;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.payment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding-left: 28px;
+    margin-bottom: 0;
+}
+
+.radio-label {
+    font-weight: bold;
+    color: #2D2618;
+    font-size: 14px;
+}
+
+.icon {
+    font-size: 16px;
+    opacity: 0.7;
+}
+
+
+.payment-body input {
+    background-color: #FAF6F0;
+    border: 1px solid #EAE3D9;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    color: #333;
+}
+
+.payment-body input:focus {
+    outline: none;
+    border-color: #533F00;
+    background-color: #FFFFFF;
+}
+
+.payment-body label {
+    color: #777;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+/* .................. */
+
+.summary-img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.row-space {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.total-price {
+    font-weight: bold;
+    color: #533F00;
+    font-size: 18px;
+}
+
+.btn-submit {
+    width: 100%;
+    background-color: #533F00;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.25s ease-in-out;
+}
+
+.btn-submit:hover {
+    background-color: #8A6A00;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(138, 106, 0, 0.35);
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
