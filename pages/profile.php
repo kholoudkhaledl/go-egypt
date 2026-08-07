@@ -4,6 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 include '../config/db.php';
+require_once __DIR__ . '/../config/config.php';
 
 if (!isset($_SESSION['user']['id'])) {
     header("Location: login.php");
@@ -89,8 +90,8 @@ $user = $stmt->get_result()->fetch_assoc();
 
                     <!-- buttons -->
                     <div class="d-flex justify-content-between align-items-center mt-4 pt-2">
-                        <a href="/go-egypt/index.php" class="btn btn-outline-light btn-back-home">Back to Home</a>
-                        <a href="/go-egypt/action/logout.php" class="btn btn-logout-card">Logout</a>
+                        <a href="<?php echo BASE_URL; ?>index.php" class="btn btn-outline-light btn-back-home">Back to Home</a>
+                        <a href="<?php echo BASE_URL; ?>action/logout_action.php" class="btn btn-logout-card">Logout</a>
                     </div>
 
                 </div>

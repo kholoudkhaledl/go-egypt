@@ -2,7 +2,11 @@
 <html lang="en">
 
 <head>
-    <?php include "../include/head.php"; ?>
+    <?php 
+    include "../include/head.php";
+    include "../include/header.php";
+    ?>
+
     <link rel="stylesheet" href="../assets/css/history.css">
     <link rel="stylesheet" href="../assets/css/footer.css">
     <title>History | Go Egypt</title>

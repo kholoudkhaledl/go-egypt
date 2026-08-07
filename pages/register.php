@@ -3,9 +3,14 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+require_once __DIR__ . '/../config/config.php';
+
+$old = $_SESSION['old'] ?? [];
+unset($_SESSION['old']);
+
 // If the user is already logged in, redirect them to the home page
 if (isset($_SESSION['user']['id'])) {
-    header("Location: /go-egypt/index.php");
+    header("Location: " . BASE_URL . "index.php");
     exit();
 }
 ?>
@@ -39,7 +44,7 @@ if (isset($_SESSION['user']['id'])) {
         <div class="bg-overlay"></div>
     </div>
 
-  <!-- Registration Form Card -->
+    <!-- Registration Form Card -->
     <div class="glass-card">
         
         <!-- Header / Branding -->
@@ -56,7 +61,7 @@ if (isset($_SESSION['user']['id'])) {
                 <label class="form-label-custom">FIRST NAME</label>
                 <div class="input-icon-wrapper">
                     <span class="material-symbols-outlined left-icon">person</span>
-                    <input type="text" name="first_name" class="form-control form-control-custom w-100" placeholder="e.g. Alexander" required>
+                    <input type="text" name="first_name" class="form-control form-control-custom w-100" placeholder="e.g. Alexander" value="<?= htmlspecialchars($old['first_name'] ?? '') ?>" required>
                 </div>
             </div>
 
@@ -65,7 +70,7 @@ if (isset($_SESSION['user']['id'])) {
                 <label class="form-label-custom">LAST NAME</label>
                 <div class="input-icon-wrapper">
                     <span class="material-symbols-outlined left-icon">badge</span>
-                    <input type="text" name="last_name" class="form-control form-control-custom w-100" placeholder="e.g. Smith" required>
+                    <input type="text" name="last_name" class="form-control form-control-custom w-100" placeholder="e.g. Smith" value="<?= htmlspecialchars($old['last_name'] ?? '') ?>" required>
                 </div>
             </div>
 
@@ -74,16 +79,24 @@ if (isset($_SESSION['user']['id'])) {
                 <label class="form-label-custom">EMAIL ADDRESS</label>
                 <div class="input-icon-wrapper">
                     <span class="material-symbols-outlined left-icon">mail</span>
-                    <input type="email" name="email" class="form-control form-control-custom w-100" placeholder="alexander@luxor.com" required>
+                    <input type="email" name="email" class="form-control form-control-custom w-100" placeholder="alexander@luxor.com" value="<?= htmlspecialchars($old['email'] ?? '') ?>" required>
                 </div>
             </div>
+            
+            <!-- Alert Message -->
+            <?php if (isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger role="alert" style="border-radius: 20px; font-size: 14px; text-align: center; margin-bottom: 0;">
+                    <?= $_SESSION['error']; ?>
+                </div>
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
 
             <!-- Phone Number -->
             <div>
                 <label class="form-label-custom">PHONE NUMBER</label>
                 <div class="input-icon-wrapper">
                     <span class="material-symbols-outlined left-icon">call</span>
-                    <input type="tel" name="phone" class="form-control form-control-custom w-100" placeholder="+1 (555) 000-0000">
+                    <input type="tel" name="phone" class="form-control form-control-custom w-100" placeholder="+1 (555) 000-0000" value="<?= htmlspecialchars($old['phone'] ?? '') ?>">
                 </div>
             </div>
 
@@ -160,5 +173,19 @@ if (isset($_SESSION['user']['id'])) {
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.querySelectorAll('.toggle-password').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const input = this.previousElementSibling;
+                const icon = this.querySelector('span');
+                if (!input) return;
+
+                const isPassword = input.type === 'password';
+                input.type = isPassword ? 'text' : 'password';
+                if (icon) icon.textContent = isPassword ? 'visibility_off' : 'visibility';
+            });
+        });
+    </script>
 </body>
 </html>
