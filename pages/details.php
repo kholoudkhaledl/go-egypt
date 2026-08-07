@@ -315,70 +315,91 @@ else {
 
         <aside class="booking-summary-card">
             <h3 class="summary-title">Booking Summary</h3>
-            
-            <div class="summary-destination">
-                <img src="<?php echo htmlspecialchars($row['img_url']); ?>" alt="<?php echo htmlspecialchars($row['title']); ?>">
-                <div>
-                    <h4><?php echo htmlspecialchars($row['title']); ?></h4>
-                    <p><?php echo htmlspecialchars($row['region']); ?></p>
-                </div>
-            </div>
 
-            <div class="summary-details-list">
-                <div class="summary-row">
-                    <span>Check-in</span>
-                    <span>20 May 2025</span>
-                </div>
-                <div class="summary-row">
-                    <span>Check-out</span>
-                    <span>22 May 2025</span>
-                </div>
-                <div class="summary-row">
-                    <span>Guests</span>
-                    <span>2 Adults, 1 Child</span>
-                </div>
-            </div>
+            <form id="bookingForm" action="checkout.php" method="POST">
+                <!-- Hidden fields: filled/updated by details.js and sent to checkout.php -->
+                <input type="hidden" name="landmark_id" value="<?php echo (int)$id; ?>">
+                <input type="hidden" name="landmark_title" value="<?php echo htmlspecialchars($row['title']); ?>">
+                <input type="hidden" name="region" value="<?php echo htmlspecialchars($row['region']); ?>">
+                <input type="hidden" name="image" value="<?php echo htmlspecialchars($row['img_url']); ?>">
+                <input type="hidden" name="checkin_date" value="20 May 2025">
+                <input type="hidden" name="checkout_date" value="22 May 2025">
+                <input type="hidden" name="adults" id="hiddenAdults" value="2">
+                <input type="hidden" name="children" id="hiddenChildren" value="1">
+                <input type="hidden" name="hotel_name" id="hiddenHotelName" value="">
+                <input type="hidden" name="hotel_price" id="hiddenHotelPrice" value="0">
+                <input type="hidden" name="nights" id="hiddenNights" value="2">
+                <input type="hidden" name="entry_total" id="hiddenEntryTotal" value="0">
+                <input type="hidden" name="trans_total" id="hiddenTransTotal" value="0">
+                <input type="hidden" name="guide_total" id="hiddenGuideTotal" value="0">
+                <input type="hidden" name="taxes" id="hiddenTaxes" value="12">
+                <input type="hidden" name="grand_total" id="hiddenGrandTotal" value="0">
 
-            <div class="summary-details-list">
-                <div class="summary-row" style="font-weight: 600; color: #111;">
-                    <span>Selected Hotel</span>
-                    <span id="summaryHotelName">None selected</span>
+                <div class="summary-destination">
+                    <img src="<?php echo htmlspecialchars($row['img_url']); ?>" alt="<?php echo htmlspecialchars($row['title']); ?>">
+                    <div>
+                        <h4><?php echo htmlspecialchars($row['title']); ?></h4>
+                        <p><?php echo htmlspecialchars($row['region']); ?></p>
+                    </div>
                 </div>
-                <div class="summary-row">
-                    <span>Hotel (2 Nights)</span>
-                    <span id="summaryHotelPrice">$0</span>
-                </div>
-                <div class="summary-row">
-                    <span>Entry Ticket (3)</span>
-                    <span>$<?php 
-                        $price = isset($row['ticket_price']) ? floatval($row['ticket_price']) : 0;
-                        echo htmlspecialchars($price * 3); 
-                    ?></span>   </div>
-                <div class="summary-row">
-                    <span>Transportation</span>
-                    <span>$90</span>
-                </div>
-                <div class="summary-row">
-                    <span>Tour Guide</span>
-                    <span>$60</span>
-                </div>
-                <div class="summary-row">
-                    <span>Taxes & Fees</span>
-                    <span>$12</span>
-                </div>
-            </div>
 
-            <div class="summary-total">
-                <span>Total</span>
-                <span class="total-price" id="summaryTotalPrice">$222</span>
-            </div>
+                <div class="summary-details-list">
+                    <div class="summary-row">
+                        <span>Check-in</span>
+                        <span>20 May 2025</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Check-out</span>
+                        <span>22 May 2025</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Guests</span>
+                        <span id="summaryGuests">2 Adults, 1 Child</span>
+                    </div>
+                </div>
 
-            <div style="margin-top: 20px;">
-                <button type="button" class="payment-btn" style="width: 100%;">
-                    <span>Proceed to Payment</span>
-                    <i class="ri-arrow-right-line"></i>
-                </button>
-            </div>
+                <div class="summary-details-list">
+                    <div class="summary-row" style="font-weight: 600; color: #111;">
+                        <span>Selected Hotel</span>
+                        <span id="summaryHotelName">None selected</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Hotel (<span id="summaryNights">2</span> Nights)</span>
+                        <span id="summaryHotelPrice">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Entry Ticket (<span id="summaryEntryCount">3</span>)</span>
+                        <span id="summaryEntryPrice">$<?php 
+                            $price = isset($row['ticket_price']) ? floatval($row['ticket_price']) : 0;
+                            echo htmlspecialchars($price * 3); 
+                        ?></span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Transportation</span>
+                        <span id="summaryTransPrice">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tour Guide</span>
+                        <span id="summaryGuidePrice">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Taxes & Fees</span>
+                        <span>$12</span>
+                    </div>
+                </div>
+
+                <div class="summary-total">
+                    <span>Total</span>
+                    <span class="total-price" id="summaryTotalPrice">$0</span>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button type="submit" class="payment-btn" style="width: 100%;">
+                        <span>Proceed to Payment</span>
+                        <i class="ri-arrow-right-line"></i>
+                    </button>
+                </div>
+            </form>
         </aside>
 
     </main>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../config/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -10,15 +11,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password     = $_POST['password'];
     $confirm_pass = $_POST['confirm_password'];
 
-    // Check if passwords match
-    if ($password !== $confirm_pass) {
-        die("<script>
-                alert('Passwords do not match!');
-                window.history.back();
-             </script>");
+
+    function backWithError($message) {
+        $_SESSION['error'] = $message;
+        $_SESSION['old'] = $_POST; 
+        header("Location: ../pages/register.php");
+        exit();
     }
 
-    // 1. Check if email already exists in database
+    if ($password !== $confirm_pass) {
+        backWithError("Passwords do not match!");
+    }
+
+  //  check phone number on database
+
+    $phone_pattern = "/^\+?[1-9]\d{6,14}$/";
+    $clean_phone = preg_replace('/[\s\-\(\)]/', '', $phone);
+
+    if (empty($phone) || !preg_match($phone_pattern, $clean_phone)) {
+        backWithError("Please enter a valid phone number with country code (e.g., +1234567890)!");
+    }
+
+//  check email on database 
     $check_email_sql = "SELECT id FROM users WHERE email = ?";
     $check_stmt = $conn->prepare($check_email_sql);
     $check_stmt->bind_param("s", $email);
@@ -26,33 +40,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $check_stmt->store_result();
 
     if ($check_stmt->num_rows > 0) {
-        // Email already registered
         $check_stmt->close();
-        die("<script>
-                alert('This email is already registered! Please use another email or login.');
-                window.history.back();
-             </script>");
+        backWithError("This email is already registered!");
     }
     $check_stmt->close();
-
-    // 2. Hash the password for security
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    // 3. Insert new user into database (تم تعديل أسماء الأعمدة هنا لـ Fname و Lname)
     $sql = "INSERT INTO users (Fname, Lname, email, phone, pass) VALUES (?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("sssss", $first_name, $last_name, $email, $phone, $hashed_password);
 
     if ($stmt->execute()) {
-        echo "<script>
-                alert('Account created successfully!');
-                window.location.href = '../pages/login.php';
-              </script>";
+        // if it success delete data 
+        unset($_SESSION['old']); 
+        $_SESSION['success'] = "Account created successfully!";
+        header("Location: ../pages/login.php");
+        exit();
     } else {
-        echo "<script>
-                alert('Registration error: " . addslashes($stmt->error) . "');
-                window.history.back();
-              </script>";
+        backWithError("Registration error. Please try again.");
     }
 
     $stmt->close();

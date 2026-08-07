@@ -46,6 +46,29 @@ document.addEventListener("DOMContentLoaded", function () {
     const grandTotalPrice = document.getElementById("grandTotalPrice");
     const summaryTotalPrice = document.getElementById("summaryTotalPrice");
 
+    const summaryGuests = document.getElementById("summaryGuests");
+    const summaryNights = document.getElementById("summaryNights");
+    const summaryEntryCount = document.getElementById("summaryEntryCount");
+    const summaryEntryPrice = document.getElementById("summaryEntryPrice");
+    const summaryHotelName = document.getElementById("summaryHotelName");
+    const summaryHotelPrice = document.getElementById("summaryHotelPrice");
+    const summaryTransPrice = document.getElementById("summaryTransPrice");
+    const summaryGuidePrice = document.getElementById("summaryGuidePrice");
+
+    // Hidden inputs submitted to checkout.php
+    const hiddenAdults = document.getElementById("hiddenAdults");
+    const hiddenChildren = document.getElementById("hiddenChildren");
+    const hiddenHotelName = document.getElementById("hiddenHotelName");
+    const hiddenHotelPrice = document.getElementById("hiddenHotelPrice");
+    const hiddenNights = document.getElementById("hiddenNights");
+    const hiddenEntryTotal = document.getElementById("hiddenEntryTotal");
+    const hiddenTransTotal = document.getElementById("hiddenTransTotal");
+    const hiddenGuideTotal = document.getElementById("hiddenGuideTotal");
+    const hiddenTaxes = document.getElementById("hiddenTaxes");
+    const hiddenGrandTotal = document.getElementById("hiddenGrandTotal");
+
+    const bookingForm = document.getElementById("bookingForm");
+
     const ticketPricePerPerson = 20;
     const transportPricePerPerson = 30;
     const guidePricePerPerson = 20;
@@ -56,6 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let includeTrans = false;
     let includeGuide = false;
 
+    let selectedHotelNameValue = "None selected";
     let selectedHotelPricePerNight = 0;
     const hotelCards = document.querySelectorAll(".hotel-card");
 
@@ -106,6 +130,28 @@ document.addEventListener("DOMContentLoaded", function () {
         const taxesAndFees = 12;
         const sidebarGrandTotal = hotelCost + entryCost + transCost + guideCost + taxesAndFees;
         if (summaryTotalPrice) summaryTotalPrice.textContent = `$${sidebarGrandTotal}`;
+
+        // Keep the Booking Summary card in sync
+        if (summaryGuests) summaryGuests.textContent = `${adults} Adults, ${children} Child${children !== 1 ? "ren" : ""}`;
+        if (summaryNights) summaryNights.textContent = numberOfNights;
+        if (summaryEntryCount) summaryEntryCount.textContent = totalPeople;
+        if (summaryEntryPrice) summaryEntryPrice.textContent = `$${entryCost}`;
+        if (summaryHotelName) summaryHotelName.textContent = selectedHotelNameValue;
+        if (summaryHotelPrice) summaryHotelPrice.textContent = `$${hotelCost}`;
+        if (summaryTransPrice) summaryTransPrice.textContent = `$${transCost}`;
+        if (summaryGuidePrice) summaryGuidePrice.textContent = `$${guideCost}`;
+
+        // Keep the hidden form fields in sync so checkout.php gets accurate data
+        if (hiddenAdults) hiddenAdults.value = adults;
+        if (hiddenChildren) hiddenChildren.value = children;
+        if (hiddenHotelName) hiddenHotelName.value = selectedHotelNameValue;
+        if (hiddenHotelPrice) hiddenHotelPrice.value = selectedHotelPricePerNight;
+        if (hiddenNights) hiddenNights.value = numberOfNights;
+        if (hiddenEntryTotal) hiddenEntryTotal.value = entryCost;
+        if (hiddenTransTotal) hiddenTransTotal.value = transCost;
+        if (hiddenGuideTotal) hiddenGuideTotal.value = guideCost;
+        if (hiddenTaxes) hiddenTaxes.value = taxesAndFees;
+        if (hiddenGrandTotal) hiddenGrandTotal.value = sidebarGrandTotal;
     }
 
     if (adultPlus) adultPlus.addEventListener("click", () => { adults++; updateCalculator(); });
@@ -127,12 +173,16 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             if (isAlreadySelected) {
+                selectedHotelNameValue = "None selected";
                 selectedHotelPricePerNight = 0;
             } else {
                 card.classList.add("selected");
                 btn.innerHTML = '<i class="ri-check-line"></i> Selected';
 
+                const hotelNameEl = card.querySelector(".hotel-name");
                 const hotelPriceEl = card.querySelector(".hotel-price");
+
+                selectedHotelNameValue = hotelNameEl ? hotelNameEl.textContent : "Selected Hotel";
                 if (hotelPriceEl) {
                     const priceText = hotelPriceEl.textContent;
                     selectedHotelPricePerNight = parseInt(priceText.replace(/[^0-9]/g, '')) || 0;
@@ -141,6 +191,15 @@ document.addEventListener("DOMContentLoaded", function () {
             updateCalculator();
         });
     });
+
+    if (bookingForm) {
+        bookingForm.addEventListener("submit", function (e) {
+            if (selectedHotelPricePerNight <= 0) {
+                e.preventDefault();
+                alert("Please select a hotel before proceeding to payment.");
+            }
+        });
+    }
 
     if (transToggleBox) {
         transToggleBox.addEventListener("click", () => {

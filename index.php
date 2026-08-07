@@ -25,8 +25,8 @@
                         Plan your unforgettable journey with absolute ease.
                     </p>
                             <div class="butt">
-                    <button type="button" class="butt1">Explore</button>
-                    <button type="button" class="butt2">Plan Trip</button>
+                    <button type="button" class="butt1" onclick="document.getElementById('explore').scrollIntoView({behavior: 'smooth'})">Explore</button>
+                    <button type="button" class="butt2" onclick="window.location.href='pages/history.php'"> Our Legacy </button>
                 </div>
             </div>
         </section>
