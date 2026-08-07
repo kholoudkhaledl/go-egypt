@@ -19,13 +19,25 @@
 
             <div class="social-icons">
 
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/share/1JKS2sB1SX/" target="_blank" aria-label="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
 
-                <a href="#"><i class="fab fa-instagram"></i></a>
+                <!-- Instagram -->
+                <a href="" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
 
-                <a href="#"><i class="fab fa-x-twitter"></i></a>
+                <!-- X (Twitter) -->
+                <a href="" target="_blank" aria-label="X">
+                    <i class="fab fa-x-twitter"></i>
+                </a>
 
-                <a href="#"><i class="fab fa-youtube"></i></a>
+                <!-- YouTube -->
+                <a href="https://www.youtube.com" target="_blank" aria-label="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
 
             </div>
 
@@ -36,35 +48,21 @@
             <h3>Quick Links</h3>
 
             <ul>
-
-                <li><a href="index.php">Home</a></li>
-
+                <li><a href="/go-egypt/index.php">Home</a></li>
                 <li><a href="pages/history.php">History</a></li>
-
                 <li><a href="#">Explore</a></li>
-
                 <li><a href="#">Virtual Tours</a></li>
-
-                <li><a href="#">Plan Trip</a></li>
-
-                <li><a href="#">About</a></li>
-
+                <li><a href="/go-egypt/pages/about.php">About</a></li>
+                <li><a href="/go-egypt/pages/contact.php">Contact us</a></li>
             </ul>
-
         </div>
-
         <div class="footer-box">
-
             <h3>Contact</h3>
-
             <p><i class="fas fa-location-dot"></i> Cairo, Egypt</p>
-
             <p><i class="fas fa-phone"></i> +20 100 123 4567</p>
-
             <p><i class="fas fa-envelope"></i> info@goegypt.com</p>
-
         </div>
-
+<!-- 
         <div class="footer-box">
 
             <h3>Newsletter</h3>
@@ -82,6 +80,12 @@
 
             </form>
 
+        </div> -->
+        <div class="footer-box">
+        <h3>Working Hours</h3>
+        <p><i class="fas fa-clock"></i> Mon - Fri: 9:00 AM - 8:00 PM</p>
+        <p><i class="fas fa-clock"></i> Saturday: 10:00 AM - 6:00 PM</p>
+        <p><i class="fas fa-calendar-times"></i> Sunday: Closed</p>
         </div>
 
     </div>

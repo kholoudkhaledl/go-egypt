@@ -22,8 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ];
         
         // Redirect to the homepage after successful login
-        // echo "<script>window.location.replace('../index.php');</script>";
-        echo "<h1>Login successful! Welcome " . htmlspecialchars($user['Fname']) . "</h1>";
+        header("Location: ../index.php");
         exit();
     } else {
         $error = "Invalid email or password";
