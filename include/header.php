@@ -24,6 +24,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <li><a href="/go-egypt/pages/virtual-tours.php" class="<?php echo ($current_page == 'virtual-tours.php') ? 'active' : ''; ?>">Virtual Tours</a></li>
     <li><a href="/go-egypt/pages/plan-trip.php" class="<?php echo ($current_page == 'plan-trip.php') ? 'active' : ''; ?>">Plan Trip</a></li>
     <li><a href="/go-egypt/pages/about.php" class="<?php echo ($current_page == 'about.php') ? 'active' : ''; ?>">About</a></li>
+    <li><a href="/go-egypt/pages/contact.php" class="<?php echo ($current_page == 'contact.php') ? 'active' : ''; ?>">Contact Us</a></li>
 </ul>
         <div class="buttons">
             <button onclick="location.href='/go-egypt/pages/login.php'">Login</button>
