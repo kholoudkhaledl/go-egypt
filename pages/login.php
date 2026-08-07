@@ -1,3 +1,14 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// If the user is already logged in, redirect them to the home page
+if (isset($_SESSION['user']['id'])) {
+    header("Location: /go-egypt/index.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

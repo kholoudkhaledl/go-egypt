@@ -115,7 +115,6 @@ nav {
     width: 0;
     height: 2px;
     background-color: #d4af37;
-    /* لون ذهبي فخم */
     transition: width 0.3s ease-in-out;
 }
 
