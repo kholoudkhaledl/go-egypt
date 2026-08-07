@@ -1,16 +1,12 @@
 <?php
-// Include database connection configuration and global header template
 include '../config/db.php';
 include '../include/header.php'; 
 
-// Retrieve landmark ID from URL parameter, default to 1 if not provided
 $id = isset($_GET['id']) ? intval($_GET['id']) : 1;
 
-// Fetch destination data from the database based on the ID
 $sql = "SELECT * FROM destinations WHERE id = $id";
 $result = $conn->query($sql);
 
-// Check if destination exists, otherwise fallback to default placeholder data (Giza Pyramids)
 if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
 } 
@@ -26,29 +22,15 @@ else {
         'landmark_type' => 'Historical'
     ];
 }
-
-// Initial default values synced with JavaScript (3 total persons: 2 adults + 1 child, and 2 default nights)
-$default_adults = 1;
-$default_children = 0;
-$default_total_persons = $default_adults + $default_children; // 3
-$default_nights = 2;
-$ticket_unit_price = isset($row['ticket_price']) ? floatval($row['ticket_price']) : 20.00;
-$initial_ticket_total = $ticket_unit_price * $default_total_persons;
-$initial_transport_price = 40; // Initial estimated transportation cost, will be updated via JS
-$initial_guide_price = 10;     // Initial estimated tour guide cost, will be updated via JS
-$initial_taxes = 12;
-$initial_grand_total = $initial_ticket_total + $initial_transport_price + $initial_guide_price + $initial_taxes;
 ?>
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-    <!-- Meta tags and page configuration -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($row['title']); ?> - Explore Egypt</title>
 
-    <!-- External stylesheets and Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
     <link rel="stylesheet" href="../assets/css/style.css">
@@ -56,21 +38,16 @@ $initial_grand_total = $initial_ticket_total + $initial_transport_price + $initi
 </head>
 <body>
 
-<!-- Main page container wrapping the destination details view -->
 <div class="page-container main-details">
     
-    <!-- Top section containing the main banner image and basic information overview -->
     <header class="details-top-section full-width-top">
         
-        <!-- Main destination image container -->
         <div class="main-image-container">
             <img src="<?php echo htmlspecialchars($row['img_url']); ?>" alt="<?php echo htmlspecialchars($row['title']); ?>">
         </div>
 
-        <!-- Destination info, title, location, ratings, and stats -->
         <div class="details-info-container">
             
-            <!-- Title and favorite button row -->
             <div class="details-title-row">
                 <h1><?php echo htmlspecialchars($row['title']); ?></h1>
                 <button id="favBtn" aria-label="Add to favorites">
@@ -78,7 +55,6 @@ $initial_grand_total = $initial_ticket_total + $initial_transport_price + $initi
                 </button>
             </div>
 
-            <!-- Meta information: location map link and user reviews -->
             <div class="details-meta">
                 <a href="https://www.google.com/maps/search/?api=1&query=<?php echo urlencode($row['title'] . ' ' . $row['region']); ?>" target="_blank" rel="noopener noreferrer">
                     <i class="ri-map-pin-line" style="color: #d97706;"></i> 
@@ -90,12 +66,10 @@ $initial_grand_total = $initial_ticket_total + $initial_transport_price + $initi
                 </span>
             </div>
 
-            <!-- Short description paragraph -->
             <p class="short-description" style="color: #4b5563; font-size: 14px; line-height: 1.6; margin: 15px 0;">
                 <?php echo htmlspecialchars($row['description']); ?>
             </p>
 
-            <!-- Quick statistics summary cards -->
             <section class="stats-card" aria-label="Quick statistics">
                 <div class="stat-item">
                     <div class="stat-icon"><i class="ri-time-line"></i></div>
@@ -106,7 +80,7 @@ $initial_grand_total = $initial_ticket_total + $initial_transport_price + $initi
                 <div class="stat-item">
                     <div class="stat-icon"><i class="ri-ticket-line"></i></div>
                     <div class="stat-label">Entry Ticket</div>
-                    <div class="stat-value">$<span id="ticketUnitPrice"><?php echo htmlspecialchars($ticket_unit_price); ?></span></div>
+                    <div class="stat-value">$<?php echo htmlspecialchars(isset($row['ticket_price']) ? $row['ticket_price'] : '20.00'); ?></div>
                 </div>
 
                 <div class="stat-item">
@@ -126,12 +100,10 @@ $initial_grand_total = $initial_ticket_total + $initial_transport_price + $initi
 
     </header>
 
-    <!-- Main content layout containing details, photo gallery, hotels, and cost calculator -->
     <main class="main-layout">
             
         <div class="left-content">
             
-            <!-- About the place description and available amenities/features -->
             <section class="about-section">
                 <h3 class="section-title" style="margin-bottom: 0;">About This Place</h3>
                 <div class="about-content-wrapper">
@@ -166,7 +138,7 @@ $initial_grand_total = $initial_ticket_total + $initial_transport_price + $initi
                 </div>
             </section>
 
-            <!-- Photo Gallery Section dynamically loaded from the database -->
+            <!-- Photo Gallery Section -->
             <section class="gallery-section" style="margin-top: 40px;">
                 <h3 class="section-title" style="margin-bottom: 5px;">Photo Gallery</h3>
                 <p style="color: #666; font-size: 13px; margin: 0 0 15px 0;">A glimpse of the landmark</p>
@@ -194,7 +166,6 @@ $initial_grand_total = $initial_ticket_total + $initial_transport_price + $initi
                 </div>
             </section>
 
-            <!-- Hotels Selection Section dynamically loaded based on the current landmark -->
             <section class="hotels-section">
                 <h3 class="section-title" style="margin-bottom: 5px;">Choose Your Hotel</h3>
                 <p style="color: #666; font-size: 13px; margin: 0;">Select a hotel that suits you</p>
@@ -241,7 +212,7 @@ $initial_grand_total = $initial_ticket_total + $initial_transport_price + $initi
                                         </div>
 
                                         <div>
-                                            <button type="button" class="select-btn select-hotel-btn" data-name="<?php echo htmlspecialchars($hotel['name']); ?>" data-price="<?php echo htmlspecialchars($hotel['price_per_night']); ?>" style="width: 100%;">Select</button>
+                                            <button type="button" class="select-btn" style="width: 100%;">Select</button>
                                         </div>
                                     </div>
                                 </div>
@@ -255,49 +226,30 @@ $initial_grand_total = $initial_ticket_total + $initial_transport_price + $initi
                 </div>
             </section>
 
-            <!-- Booking Dates and Duration Selection Box (Synced with JavaScript) -->
-            <section class="dates-selection-box" style="margin-top: 30px; background: #fffdf9; border: 1px solid #f3ebd8; padding: 20px; border-radius: 12px; display: flex; gap: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-                <div style="flex: 1;">
-                    <label style="display: block; font-weight: 500; margin-bottom: 5px; font-size: 14px;"><i class="ri-calendar-line" style="color: #d97706;"></i> Check-in Date</label>
-                    <input type="date" id="checkInDate" value="2025-05-20" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
-                </div>
-                <div style="flex: 1;">
-                    <label style="display: block; font-weight: 500; margin-bottom: 5px; font-size: 14px;"><i class="ri-calendar-line" style="color: #d97706;"></i> Check-out Date</label>
-                    <input type="date" id="checkOutDate" value="2025-05-22" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
-                </div>
-                <div style="display: flex; align-items: flex-end;">
-                    <span id="tripDaysCount" style="padding: 10px 15px; border: 1px solid #ddd; background: #f3f4f6; border-radius: 8px; font-weight: 600; color: #374151;">2 Days</span>
-                </div>
-            </section>
-
-            <!-- Trip Cost Calculator Section (Adults, Children, Add-ons, and Breakdown) -->
-            <section class="cost-calculator-container" style="margin-top: 30px;">
+            <section class="cost-calculator-container" style="margin-top: 40px;">
         
                 <h3 class="calc-main-title">Trip Cost Calculator</h3>
                 
                 <div class="calc-controls-grid">
                     
-                    <!-- Adults Counter Control -->
                     <div class="control-box">
-                        <label><i class="ri-user-line" style="color: #d97706;font-size: 20px;"></i> Adults</label>
+                        <label><i class="ri-user-line"></i> Adults</label>
                         <div class="counter-wrapper">
                             <button type="button" class="count-btn" id="adultMinus">-</button>
-                            <span id="adultCount"><?php echo $default_adults; ?></span>
+                            <span id="adultCount">2</span>
                             <button type="button" class="count-btn" id="adultPlus">+</button>
                         </div>
                     </div>
 
-                    <!-- Children Counter Control -->
                     <div class="control-box">
-                        <label><i class="ri-user-line" style="color: #d97706;font-size: 20px;"></i> Children</label>
+                        <label><i class="ri-user-line"></i> Children</label>
                         <div class="counter-wrapper">
                             <button type="button" class="count-btn" id="childMinus">-</button>
-                            <span id="childCount"><?php echo $default_children; ?></span>
+                            <span id="childCount">1</span>
                             <button type="button" class="count-btn" id="childPlus">+</button>
                         </div>
                     </div>
 
-                    <!-- Transportation Toggle Option -->
                     <div class="toggle-box" id="transToggleBox">
                         <div class="check-badge"><i class="ri-check-line"></i></div>
                         <div class="toggle-content">
@@ -310,7 +262,6 @@ $initial_grand_total = $initial_ticket_total + $initial_transport_price + $initi
                         <button type="button" class="calc-select-btn">Select</button>
                     </div>
 
-                    <!-- Tour Guide Toggle Option -->
                     <div class="toggle-box" id="guideToggleBox">
                         <div class="check-badge"><i class="ri-check-line"></i></div>
                         <div class="toggle-content">
@@ -325,30 +276,35 @@ $initial_grand_total = $initial_ticket_total + $initial_transport_price + $initi
 
                 </div>
 
-                <!-- Price Breakdown Details Row -->
                 <div class="calc-breakdown-row">
                     
                     <div class="breakdown-item">
                         <span class="b-title">Entry Ticket</span>
-                        <span class="b-calc" id="entryCalcText">$<?php echo $ticket_unit_price; ?> × <?php echo $default_total_persons; ?></span>
-                        <span class="b-price" id="entryTotalPrice">$<?php echo $initial_ticket_total; ?></span>
+                        <span class="b-calc" id="entryCalcText">$<?php echo htmlspecialchars($row['ticket_price']); ?> × 3</span>
+                        <span class="b-price" id="entryTotalPrice">$<?php echo htmlspecialchars($row['ticket_price'] * 3); ?></span>
                     </div>
+
+                    <!-- <div class="breakdown-item">
+                        <span class="b-title">Hotel (<span id="nightsCountText">2</span> Nights)</span>
+                        <span class="b-calc" id="hotelCalcText">$120 × 2</span>
+                        <span class="b-price" id="hotelTotalPrice">$240</span>
+                    </div> -->
 
                     <div class="breakdown-item" id="transBreakdownItem" style="display: none;">
                         <span class="b-title">Transportation</span>
-                        <span class="b-calc" id="transCalcText">1 Car(s) x $40</span>
-                        <span class="b-price" id="transTotalPrice">$40</span>
+                        <span class="b-calc" id="transCalcText">$30 × 3</span>
+                        <span class="b-price" id="transTotalPrice">$0</span>
                     </div>
 
                     <div class="breakdown-item" id="guideBreakdownItem" style="display: none;">
                         <span class="b-title">Tour Guide</span>
-                        <span class="b-calc" id="guideCalcText">Fixed Price</span>
-                        <span class="b-price" id="guideTotalPrice">$10</span>
+                        <span class="b-calc" id="guideCalcText">$20 × 3</span>
+                        <span class="b-price" id="guideTotalPrice">$0</span>
                     </div>
 
                     <div class="total-result-box">
                         <span class="total-label">Total Price</span>
-                        <span class="total-amount" id="grandTotalPrice">$<?php echo $initial_grand_total; ?></span>
+                        <span class="total-amount" id="grandTotalPrice">$300</span>
                     </div>
 
                 </div>
@@ -357,76 +313,97 @@ $initial_grand_total = $initial_ticket_total + $initial_transport_price + $initi
 
         </div>
 
-        <!-- Sidebar: Booking Summary Card -->
         <aside class="booking-summary-card">
             <h3 class="summary-title">Booking Summary</h3>
-            
-            <div class="summary-destination">
-                <img src="<?php echo htmlspecialchars($row['img_url']); ?>" alt="<?php echo htmlspecialchars($row['title']); ?>">
-                <div>
-                    <h4><?php echo htmlspecialchars($row['title']); ?></h4>
-                    <p><?php echo htmlspecialchars($row['region']); ?></p>
-                </div>
-            </div>
 
-            <div class="summary-details-list">
-                <div class="summary-row">
-                    <span>Check-in</span>
-                    <span id="summaryCheckIn"> May 2025</span>
-                </div>
-                <div class="summary-row">
-                    <span>Check-out</span>
-                    <span id="summaryCheckOut">22 May 2025</span>
-                </div>
-                <div class="summary-row">
-                    <span>Guests</span>
-                    <span id="summaryGuestsText"><?php echo $default_adults; ?> Adults, <?php echo $default_children; ?> Child</span>
-                </div>
-            </div>
+            <form id="bookingForm" action="checkout.php" method="POST">
+                <!-- Hidden fields: filled/updated by details.js and sent to checkout.php -->
+                <input type="hidden" name="landmark_id" value="<?php echo (int)$id; ?>">
+                <input type="hidden" name="landmark_title" value="<?php echo htmlspecialchars($row['title']); ?>">
+                <input type="hidden" name="region" value="<?php echo htmlspecialchars($row['region']); ?>">
+                <input type="hidden" name="image" value="<?php echo htmlspecialchars($row['img_url']); ?>">
+                <input type="hidden" name="checkin_date" value="20 May 2025">
+                <input type="hidden" name="checkout_date" value="22 May 2025">
+                <input type="hidden" name="adults" id="hiddenAdults" value="2">
+                <input type="hidden" name="children" id="hiddenChildren" value="1">
+                <input type="hidden" name="hotel_name" id="hiddenHotelName" value="">
+                <input type="hidden" name="hotel_price" id="hiddenHotelPrice" value="0">
+                <input type="hidden" name="nights" id="hiddenNights" value="2">
+                <input type="hidden" name="entry_total" id="hiddenEntryTotal" value="0">
+                <input type="hidden" name="trans_total" id="hiddenTransTotal" value="0">
+                <input type="hidden" name="guide_total" id="hiddenGuideTotal" value="0">
+                <input type="hidden" name="taxes" id="hiddenTaxes" value="12">
+                <input type="hidden" name="grand_total" id="hiddenGrandTotal" value="0">
 
-            <div class="summary-details-list">
-                <div class="summary-row" style="font-weight: 600; color: #111;">
-                    <span>Selected Hotel</span>
-                    <span id="summaryHotelName">None selected</span>
+                <div class="summary-destination">
+                    <img src="<?php echo htmlspecialchars($row['img_url']); ?>" alt="<?php echo htmlspecialchars($row['title']); ?>">
+                    <div>
+                        <h4><?php echo htmlspecialchars($row['title']); ?></h4>
+                        <p><?php echo htmlspecialchars($row['region']); ?></p>
+                    </div>
                 </div>
-                <div class="summary-row">
-                    <span>Hotel (<span id="summaryNightsCount"><?php echo $default_nights; ?></span> Nights)</span>
-                    <span id="summaryHotelPrice">$0</span>
-                </div>
-                <div class="summary-row">
-                    <span>Entry Ticket (<span id="summaryTotalPersonsCount"><?php echo $default_total_persons; ?></span>)</span>
-                    <span id="summaryTicketPrice">$<?php echo $initial_ticket_total; ?></span>
-                </div>
-                <div class="summary-row" id="summaryTransRow" style="display: none;">
-                    <span>Transportation</span>
-                    <span id="summaryTransPrice">$0</span>
-                </div>
-                <div class="summary-row" id="summaryGuideRow" style="display: none;">
-                    <span>Tour Guide</span>
-                    <span id="summaryGuidePrice">$0</span>
-                </div>
-                <div class="summary-row">
-                    <span>Taxes & Fees</span>
-                    <span>$12</span>
-                </div>
-            </div>
 
-            <div class="summary-total">
-                <span>Total</span>
-                <span class="total-price" id="summaryFinalTotalPrice">$<?php echo $initial_ticket_total + 12; ?></span>
-            </div>
+                <div class="summary-details-list">
+                    <div class="summary-row">
+                        <span>Check-in</span>
+                        <span>20 May 2025</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Check-out</span>
+                        <span>22 May 2025</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Guests</span>
+                        <span id="summaryGuests">2 Adults, 1 Child</span>
+                    </div>
+                </div>
 
-            <div style="margin-top: 20px;">
-                <button type="button" class="payment-btn" style="width: 100%;">
-                    <span>Proceed to Payment</span>
-                    <i class="ri-arrow-right-line"></i>
-                </button>
-            </div>
+                <div class="summary-details-list">
+                    <div class="summary-row" style="font-weight: 600; color: #111;">
+                        <span>Selected Hotel</span>
+                        <span id="summaryHotelName">None selected</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Hotel (<span id="summaryNights">2</span> Nights)</span>
+                        <span id="summaryHotelPrice">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Entry Ticket (<span id="summaryEntryCount">3</span>)</span>
+                        <span id="summaryEntryPrice">$<?php 
+                            $price = isset($row['ticket_price']) ? floatval($row['ticket_price']) : 0;
+                            echo htmlspecialchars($price * 3); 
+                        ?></span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Transportation</span>
+                        <span id="summaryTransPrice">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tour Guide</span>
+                        <span id="summaryGuidePrice">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Taxes & Fees</span>
+                        <span>$12</span>
+                    </div>
+                </div>
+
+                <div class="summary-total">
+                    <span>Total</span>
+                    <span class="total-price" id="summaryTotalPrice">$0</span>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button type="submit" class="payment-btn" style="width: 100%;">
+                        <span>Proceed to Payment</span>
+                        <i class="ri-arrow-right-line"></i>
+                    </button>
+                </div>
+            </form>
         </aside>
 
     </main>
 
-    <!-- "Why Book With Us?" Features Section -->
     <section class="why-book-section">
         <div class="why-book-container">
             
@@ -478,7 +455,6 @@ $initial_grand_total = $initial_ticket_total + $initial_transport_price + $initi
                 </div>
             </div>
 
-            <!-- Egyptian Heritage SVG Illustration Area -->
             <div class="egyptian-illustration">
                 <svg viewBox="0 0 500 180" fill="none" xmlns="http://www.w3.org/2000/svg" class="heritage-svg">
                     <circle cx="410" cy="40" r="18" stroke="#d97706" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.6"/>
@@ -515,15 +491,11 @@ $initial_grand_total = $initial_ticket_total + $initial_transport_price + $initi
 </div>
 
 <?php 
-// Close active database connection safely if initialized
-if (isset($conn)) {
-    $conn->close();
+if (isset($conn)) {$conn->close();
 }
 ?>
-<!-- Include global footer template -->
 <?php include '../include/footer.php'; ?>
 
-<!-- Page-specific JavaScript interaction file -->
 <script src="../assets/js/details.js"></script>
 
 </body>
