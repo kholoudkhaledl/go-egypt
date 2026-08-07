@@ -373,12 +373,12 @@ else {
                 <span class="total-price" id="summaryTotalPrice">$222</span>
             </div>
 
-            <div style="margin-top: 20px;">
-                <button type="button" class="payment-btn" style="width: 100%;">
-                    <span>Proceed to Payment</span>
-                    <i class="ri-arrow-right-line"></i>
-                </button>
-            </div>
+ <div style="margin-top: 20px;">
+    <button type="button" class="payment-btn" id="proceedBtn" style="width: 100%;">
+        <span>Proceed to Payment</span>
+        <i class="ri-arrow-right-line"></i>
+    </button>
+</div>
         </aside>
 
     </main>

@@ -383,3 +383,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //     updateCalculator();
 // });
+document.getElementById('proceedBtn').addEventListener('click', function() {
+    // جلب رقم المعلم (ID) من الـ URL الحالي
+    const urlParams = new URLSearchParams(window.location.search);
+    const landmarkId = urlParams.get('id') || 1;
+
+    // جلب بيانات الأفراد من الصفحة
+    const adults = document.getElementById('adultCount') ? document.getElementById('adultCount').innerText : 2;
+    const children = document.getElementById('childCount') ? document.getElementById('childCount').innerText : 1;
+    
+    // جلب اسم الفندق المختار
+    const hotelName = document.getElementById('summaryHotelName') ? document.getElementById('summaryHotelName').innerText : 'None selected';
+    
+    // جلب السعر الإجمالي النهائي
+    const totalPriceElem = document.getElementById('summaryTotalPrice');
+    const totalPrice = totalPriceElem ? totalPriceElem.innerText.replace('$', '').trim() : '300';
+
+    // الانتقال لصفحة الـ checkout ومعها البيانات في الرابط
+    window.location.href = `checkout.php?id=${landmarkId}&adults=${adults}&children=${children}&hotel=${encodeURIComponent(hotelName)}&total=${totalPrice}`;
+});
