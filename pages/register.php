@@ -91,14 +91,6 @@ if (isset($_SESSION['user']['id'])) {
                     <input type="email" name="email" class="form-control form-control-custom w-100" placeholder="alexander@luxor.com" value="<?= htmlspecialchars($old['email'] ?? '') ?>" required>
                 </div>
             </div>
-            
-            <!-- Alert Message -->
-            <?php if (isset($_SESSION['error'])): ?>
-                <div class="alert alert-danger role="alert" style="border-radius: 20px; font-size: 14px; text-align: center; margin-bottom: 0;">
-                    <?= $_SESSION['error']; ?>
-                </div>
-                <?php unset($_SESSION['error']); ?>
-            <?php endif; ?>
 
             <!-- Phone Number -->
             <div>
@@ -132,7 +124,13 @@ if (isset($_SESSION['user']['id'])) {
                     </button>
                 </div>
             </div>
-
+          <!-- Alert Message -->
+            <?php if (isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger role="alert" style="border-radius: 20px; font-size: 14px; text-align: center; margin-bottom: 0;">
+                    <?= $_SESSION['error']; ?>
+                </div>
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
             <!-- Primary Action -->
             <button type="submit" class="btn btn-primary-custom mt-2">
                 Create Account
