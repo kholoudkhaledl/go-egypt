@@ -170,7 +170,7 @@ select {
 
 .btn-submit {
     width: 100%;
-    background-color: #533F00;
+    background-color: #b45309;
     color: white;
     padding: 14px;
     border: none;
@@ -183,9 +183,9 @@ select {
 }
 
 .btn-submit:hover {
-    background-color: #8A6A00;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(138, 106, 0, 0.35);
+    background: #9a4307;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(180, 83, 9, 0.35);
 }
 
 .btn-submit:active {
@@ -195,10 +195,10 @@ select {
 
 .btn-submit-secondary {
     width: 100%;
-    background-color: #ffffff;
-    color: #533F00;
+    background-color: #b45309;
+    color: white;
     padding: 14px;
-    border: 1px solid #533F00;
+    border: none;
     border-radius: 8px;
     font-size: 16px;
     font-weight: bold;
@@ -207,8 +207,10 @@ select {
     transition: all 0.25s ease-in-out;
 }
 
-.btn-submit-secondary:hover {
-    background-color: #FAF4ED;
+
+.btn-submit-secondary:active {
+    transform: translateY(0);
+    box-shadow: none;
 }
 
 /* ................ Checkout error alert ................ */
