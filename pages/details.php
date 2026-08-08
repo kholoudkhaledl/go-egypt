@@ -1,8 +1,28 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once __DIR__ . '/../config/config.php';
+
+// Require login before viewing any landmark's details page.
+// If the user isn't logged in, send them to login.php and remember
+// this exact page (with its id) so we can bring them right back after.
+if (!isset($_SESSION['user']['id'])) {
+    $id_param = isset($_GET['id']) ? (int)$_GET['id'] : null;
+    $redirect = 'pages/details.php' . ($id_param ? ('?id=' . $id_param) : '');
+    header('Location: ' . BASE_URL . 'pages/login.php?redirect=' . urlencode($redirect));
+    exit();
+}
+
 include '../config/db.php';
 include '../include/header.php'; 
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 1;
+
+// Default check-in / check-out dates for the new date picker (Select Your Dates section)
+$today             = date('Y-m-d');
+$default_checkin   = date('Y-m-d', strtotime('+7 days'));
+$default_checkout  = date('Y-m-d', strtotime('+9 days')); // 2 nights by default, matches the old hardcoded default
 
 $sql = "SELECT * FROM destinations WHERE id = $id";
 $result = $conn->query($sql);
@@ -226,6 +246,32 @@ else {
                 </div>
             </section>
 
+            <!-- Check-in / Check-out Dates Section -->
+            <section class="dates-section" style="margin-top: 40px;">
+                <h3 class="section-title" style="margin-bottom: 5px;">Select Your Dates</h3>
+                <p style="color: #666; font-size: 13px; margin: 0 0 15px 0;">Choose your check-in and check-out dates, the trip price updates automatically</p>
+
+                <div class="dates-grid">
+                    <div class="date-box">
+                        <label for="checkInDate"><i class="ri-calendar-check-line" style="color:#d97706;"></i> Check-in Date</label>
+                        <input type="date" id="checkInDate" class="date-input"
+                               value="<?php echo htmlspecialchars($default_checkin); ?>"
+                               min="<?php echo htmlspecialchars($today); ?>">
+                    </div>
+                    <div class="date-box">
+                        <label for="checkOutDate"><i class="ri-calendar-close-line" style="color:#d97706;"></i> Check-out Date</label>
+                        <input type="date" id="checkOutDate" class="date-input"
+                               value="<?php echo htmlspecialchars($default_checkout); ?>"
+                               min="<?php echo htmlspecialchars($default_checkin); ?>">
+                    </div>
+                    <div class="nights-badge-box">
+                        <span class="nights-count" id="nightsBadge">2</span>
+                        <span class="nights-label">Nights</span>
+                    </div>
+                </div>
+                <p class="date-error-text" id="dateErrorText" style="display:none;"></p>
+            </section>
+
             <section class="cost-calculator-container" style="margin-top: 40px;">
         
                 <h3 class="calc-main-title">Trip Cost Calculator</h3>
@@ -284,11 +330,11 @@ else {
                         <span class="b-price" id="entryTotalPrice">$<?php echo htmlspecialchars($row['ticket_price'] * 3); ?></span>
                     </div>
 
-                    <!-- <div class="breakdown-item">
+                    <div class="breakdown-item" id="hotelBreakdownItem" style="display: none;">
                         <span class="b-title">Hotel (<span id="nightsCountText">2</span> Nights)</span>
                         <span class="b-calc" id="hotelCalcText">$120 × 2</span>
                         <span class="b-price" id="hotelTotalPrice">$240</span>
-                    </div> -->
+                    </div>
 
                     <div class="breakdown-item" id="transBreakdownItem" style="display: none;">
                         <span class="b-title">Transportation</span>
@@ -315,70 +361,92 @@ else {
 
         <aside class="booking-summary-card">
             <h3 class="summary-title">Booking Summary</h3>
-            
-            <div class="summary-destination">
-                <img src="<?php echo htmlspecialchars($row['img_url']); ?>" alt="<?php echo htmlspecialchars($row['title']); ?>">
-                <div>
-                    <h4><?php echo htmlspecialchars($row['title']); ?></h4>
-                    <p><?php echo htmlspecialchars($row['region']); ?></p>
-                </div>
-            </div>
 
-            <div class="summary-details-list">
-                <div class="summary-row">
-                    <span>Check-in</span>
-                    <span>20 May 2025</span>
-                </div>
-                <div class="summary-row">
-                    <span>Check-out</span>
-                    <span>22 May 2025</span>
-                </div>
-                <div class="summary-row">
-                    <span>Guests</span>
-                    <span>2 Adults, 1 Child</span>
-                </div>
-            </div>
+            <form id="bookingForm" action="checkout.php" method="POST">
+                <!-- Hidden fields: filled/updated by details.js and sent to checkout.php -->
+                <input type="hidden" name="landmark_id" value="<?php echo (int)$id; ?>">
+                <input type="hidden" name="landmark_title" value="<?php echo htmlspecialchars($row['title']); ?>">
+                <input type="hidden" name="region" value="<?php echo htmlspecialchars($row['region']); ?>">
+                <input type="hidden" name="image" value="<?php echo htmlspecialchars($row['img_url']); ?>">
+                <input type="hidden" name="checkin_date" id="hiddenCheckinDate" value="">
+                <input type="hidden" name="checkout_date" id="hiddenCheckoutDate" value="">
+                <input type="hidden" name="trans_cars" id="hiddenTransCars" value="1">
+                <input type="hidden" name="adults" id="hiddenAdults" value="2">
+                <input type="hidden" name="children" id="hiddenChildren" value="1">
+                <input type="hidden" name="hotel_name" id="hiddenHotelName" value="">
+                <input type="hidden" name="hotel_price" id="hiddenHotelPrice" value="0">
+                <input type="hidden" name="nights" id="hiddenNights" value="2">
+                <input type="hidden" name="entry_total" id="hiddenEntryTotal" value="0">
+                <input type="hidden" name="trans_total" id="hiddenTransTotal" value="0">
+                <input type="hidden" name="guide_total" id="hiddenGuideTotal" value="0">
+                <input type="hidden" name="taxes" id="hiddenTaxes" value="12">
+                <input type="hidden" name="grand_total" id="hiddenGrandTotal" value="0">
 
-            <div class="summary-details-list">
-                <div class="summary-row" style="font-weight: 600; color: #111;">
-                    <span>Selected Hotel</span>
-                    <span id="summaryHotelName">None selected</span>
+                <div class="summary-destination">
+                    <img src="<?php echo htmlspecialchars($row['img_url']); ?>" alt="<?php echo htmlspecialchars($row['title']); ?>">
+                    <div>
+                        <h4><?php echo htmlspecialchars($row['title']); ?></h4>
+                        <p><?php echo htmlspecialchars($row['region']); ?></p>
+                    </div>
                 </div>
-                <div class="summary-row">
-                    <span>Hotel (2 Nights)</span>
-                    <span id="summaryHotelPrice">$0</span>
-                </div>
-                <div class="summary-row">
-                    <span>Entry Ticket (3)</span>
-                    <span>$<?php 
-                        $price = isset($row['ticket_price']) ? floatval($row['ticket_price']) : 0;
-                        echo htmlspecialchars($price * 3); 
-                    ?></span>   </div>
-                <div class="summary-row">
-                    <span>Transportation</span>
-                    <span>$90</span>
-                </div>
-                <div class="summary-row">
-                    <span>Tour Guide</span>
-                    <span>$60</span>
-                </div>
-                <div class="summary-row">
-                    <span>Taxes & Fees</span>
-                    <span>$12</span>
-                </div>
-            </div>
 
-            <div class="summary-total">
-                <span>Total</span>
-                <span class="total-price" id="summaryTotalPrice">$222</span>
-            </div>
+                <div class="summary-details-list">
+                    <div class="summary-row">
+                        <span>Check-in</span>
+                        <span id="summaryCheckin">-</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Check-out</span>
+                        <span id="summaryCheckout">-</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Guests</span>
+                        <span id="summaryGuests">2 Adults, 1 Child</span>
+                    </div>
+                </div>
 
-            <div style="margin-top: 20px;">
-                <button type="button" class="payment-btn" style="width: 100%;">
-                    <span>Proceed to Payment</span>
-                    <i class="ri-arrow-right-line"></i>
-                </button>
-            </div>
+                <div class="summary-details-list">
+                    <div class="summary-row" style="font-weight: 600; color: #111;">
+                        <span>Selected Hotel</span>
+                        <span id="summaryHotelName">None selected</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Hotel (<span id="summaryNights">2</span> Nights)</span>
+                        <span id="summaryHotelPrice">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Entry Ticket (<span id="summaryEntryCount">3</span>)</span>
+                        <span id="summaryEntryPrice">$<?php 
+                            $price = isset($row['ticket_price']) ? floatval($row['ticket_price']) : 0;
+                            echo htmlspecialchars($price * 3); 
+                        ?></span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Transportation</span>
+                        <span id="summaryTransPrice">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tour Guide</span>
+                        <span id="summaryGuidePrice">$0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Taxes & Fees</span>
+                        <span>$12</span>
+                    </div>
+                </div>
+
+                <div class="summary-total">
+                    <span>Total</span>
+                    <span class="total-price" id="summaryTotalPrice">$0</span>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button type="submit" class="payment-btn" style="width: 100%;">
+                        <span>Proceed to Payment</span>
+                        <i class="ri-arrow-right-line"></i>
+                    </button>
+                </div>
+            </form>
         </aside>
 
     </main>

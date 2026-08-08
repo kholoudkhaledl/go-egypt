@@ -1,5 +1,6 @@
+<?php require_once __DIR__ . '/../config/config.php'; ?>
 <head>
-    <link rel="stylesheet" href="/go-egypt/assets/css/footer.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
@@ -48,12 +49,11 @@
             <h3>Quick Links</h3>
 
             <ul>
-                <li><a href="/go-egypt/index.php">Home</a></li>
-                <li><a href="pages/history.php">History</a></li>
-                <li><a href="#">Explore</a></li>
-                <li><a href="#">Virtual Tours</a></li>
-                <li><a href="/go-egypt/pages/about.php">About</a></li>
-                <li><a href="/go-egypt/pages/contact.php">Contact us</a></li>
+                <li><a href="<?php echo BASE_URL; ?>index.php">Home</a></li>
+                <li><a href="<?php echo BASE_URL; ?>pages/history.php">History</a></li>
+                <li><a href="<?php echo BASE_URL; ?>index.php#explore">Explore</a></li>
+                <li><a href="<?php echo BASE_URL; ?>pages/about.php">About</a></li>
+                <li><a href="<?php echo BASE_URL; ?>pages/contact.php">Contact us</a></li>
             </ul>
         </div>
         <div class="footer-box">

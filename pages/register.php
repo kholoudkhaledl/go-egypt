@@ -3,9 +3,22 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// If the user is already logged in, redirect them to the home page
+require_once __DIR__ . '/../config/config.php';
+
+$old = $_SESSION['old'] ?? [];
+unset($_SESSION['old']);
+
+// Only allow safe, internal redirect targets like "pages/details.php?id=5"
+$redirect = $_GET['redirect'] ?? ($_SESSION['old_redirect'] ?? '');
+unset($_SESSION['old_redirect']);
+if ($redirect !== '' && !preg_match('/^pages\/[a-zA-Z0-9_\-.]+\.php(\?[a-zA-Z0-9_\-.=&]*)?$/', $redirect)) {
+    $redirect = '';
+}
+
+// If the user is already logged in, send them straight to where they
+// were headed (if any), otherwise the home page.
 if (isset($_SESSION['user']['id'])) {
-    header("Location: /go-egypt/index.php");
+    header("Location: " . BASE_URL . ($redirect !== '' ? $redirect : 'index.php'));
     exit();
 }
 ?>
@@ -39,7 +52,7 @@ if (isset($_SESSION['user']['id'])) {
         <div class="bg-overlay"></div>
     </div>
 
-  <!-- Registration Form Card -->
+    <!-- Registration Form Card -->
     <div class="glass-card">
         
         <!-- Header / Branding -->
@@ -50,13 +63,14 @@ if (isset($_SESSION['user']['id'])) {
 
         <!-- Form Elements -->
         <form action="../action/register_action.php" method="POST" class="d-flex flex-column gap-3">
+            <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">
             
             <!-- First Name -->
             <div>
                 <label class="form-label-custom">FIRST NAME</label>
                 <div class="input-icon-wrapper">
                     <span class="material-symbols-outlined left-icon">person</span>
-                    <input type="text" name="first_name" class="form-control form-control-custom w-100" placeholder="e.g. Alexander" required>
+                    <input type="text" name="first_name" class="form-control form-control-custom w-100" placeholder="e.g. Alexander" value="<?= htmlspecialchars($old['first_name'] ?? '') ?>" required>
                 </div>
             </div>
 
@@ -65,7 +79,7 @@ if (isset($_SESSION['user']['id'])) {
                 <label class="form-label-custom">LAST NAME</label>
                 <div class="input-icon-wrapper">
                     <span class="material-symbols-outlined left-icon">badge</span>
-                    <input type="text" name="last_name" class="form-control form-control-custom w-100" placeholder="e.g. Smith" required>
+                    <input type="text" name="last_name" class="form-control form-control-custom w-100" placeholder="e.g. Smith" value="<?= htmlspecialchars($old['last_name'] ?? '') ?>" required>
                 </div>
             </div>
 
@@ -74,16 +88,24 @@ if (isset($_SESSION['user']['id'])) {
                 <label class="form-label-custom">EMAIL ADDRESS</label>
                 <div class="input-icon-wrapper">
                     <span class="material-symbols-outlined left-icon">mail</span>
-                    <input type="email" name="email" class="form-control form-control-custom w-100" placeholder="alexander@luxor.com" required>
+                    <input type="email" name="email" class="form-control form-control-custom w-100" placeholder="alexander@luxor.com" value="<?= htmlspecialchars($old['email'] ?? '') ?>" required>
                 </div>
             </div>
+            
+            <!-- Alert Message -->
+            <?php if (isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger role="alert" style="border-radius: 20px; font-size: 14px; text-align: center; margin-bottom: 0;">
+                    <?= $_SESSION['error']; ?>
+                </div>
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
 
             <!-- Phone Number -->
             <div>
                 <label class="form-label-custom">PHONE NUMBER</label>
                 <div class="input-icon-wrapper">
                     <span class="material-symbols-outlined left-icon">call</span>
-                    <input type="tel" name="phone" class="form-control form-control-custom w-100" placeholder="+1 (555) 000-0000">
+                    <input type="tel" name="phone" class="form-control form-control-custom w-100" placeholder="+1 (555) 000-0000" value="<?= htmlspecialchars($old['phone'] ?? '') ?>">
                 </div>
             </div>
 
@@ -152,7 +174,7 @@ if (isset($_SESSION['user']['id'])) {
         <div class="text-center">
             <p class="m-0 footer-text">
                 Already have an account? 
-                <a href="login.php" class="link-primary-custom ms-1">Sign In</a>
+                <a href="login.php<?php echo $redirect !== '' ? '?redirect=' . urlencode($redirect) : ''; ?>" class="link-primary-custom ms-1">Sign In</a>
             </p>
         </div>
 
@@ -160,5 +182,7 @@ if (isset($_SESSION['user']['id'])) {
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="../assets/js/register.js"></script>
 </body>
 </html>
