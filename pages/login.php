@@ -5,9 +5,23 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once __DIR__ . '/../config/config.php';
 
-// If the user is already logged in, redirect them to the home page
+// Only allow safe, internal redirect targets like "pages/details.php?id=5"
+// to prevent open-redirect issues.
+$redirect = $_GET['redirect'] ?? ($_SESSION['login_redirect'] ?? '');
+unset($_SESSION['login_redirect']);
+if ($redirect !== '' && !preg_match('/^pages\/[a-zA-Z0-9_\-.]+\.php(\?[a-zA-Z0-9_\-.=&]*)?$/', $redirect)) {
+    $redirect = '';
+}
+
+// Error (and the email they typed) coming back from a failed login attempt.
+$login_error = $_SESSION['login_error'] ?? '';
+$login_email = $_SESSION['login_email'] ?? '';
+unset($_SESSION['login_error'], $_SESSION['login_email']);
+
+// If the user is already logged in, send them straight to where they
+// were headed (if any), otherwise the home page.
 if (isset($_SESSION['user']['id'])) {
-    header("Location: " . BASE_URL . "index.php");
+    header("Location: " . BASE_URL . ($redirect !== '' ? $redirect : 'index.php'));
     exit();
 }
 ?>
@@ -45,16 +59,17 @@ if (isset($_SESSION['user']['id'])) {
                 <p class="login-header-subtitle">Heritage &amp; Luxury</p>
             </div>
 
-            <div id="alertMessage" class="login-alert" role="alert"></div>
+            <div id="alertMessage" class="login-alert<?php echo $login_error !== '' ? ' is-visible login-alert-error' : ''; ?>" role="alert"><?php echo htmlspecialchars($login_error); ?></div>
 
             <!-- Login Form -->
             <form id="loginForm" action="../action/login_action.php" method="POST">
+                <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">
                 <!-- Email Field -->
                 <div class="form-field">
                     <label for="email" class="form-field-label">Email Address</label>
                     <div class="form-field-control-wrap">
                         <span class="material-symbols-outlined form-field-icon">mail</span>
-                        <input type="email" name="email" class="form-field-input" id="email" placeholder="alexander@luxor.com" required>
+                        <input type="email" name="email" class="form-field-input" id="email" placeholder="alexander@luxor.com" value="<?php echo htmlspecialchars($login_email); ?>" required>
                     </div>
                 </div>
 
@@ -107,21 +122,11 @@ if (isset($_SESSION['user']['id'])) {
 
             <!-- Footer Text -->
             <p class="login-footer">
-                Don't have an account? <a href="register.php" class="link-footer">Register</a>
+                Don't have an account? <a href="register.php<?php echo $redirect !== '' ? '?redirect=' . urlencode($redirect) : ''; ?>" class="link-footer">Register</a>
             </p>
         </div>
     </main>
 
-    <script>
-        const toggleBtn = document.getElementById('togglePassword');
-        const passInput = document.getElementById('password');
-        const passIcon = toggleBtn.querySelector('span');
-
-        toggleBtn.addEventListener('click', () => {
-            const isPass = passInput.type === 'password';
-            passInput.type = isPass ? 'text' : 'password';
-            passIcon.textContent = isPass ? 'visibility_off' : 'visibility';
-        });
-    </script>
+    <script src="../assets/js/login.js"></script>
 </body>
 </html>

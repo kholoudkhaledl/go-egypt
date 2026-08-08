@@ -736,6 +736,108 @@ body {
 
 
 /* COST CALCULATOR CONTAINER ------------------------- */
+/* DATES SECTION (Check-in / Check-out) ---------------------------------- */
+.dates-section {
+    background: #fffdf9;
+    border: 1px solid #f3ebd8;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    font-family: 'Poppins', sans-serif;
+    transition: box-shadow 0.3s ease;
+}
+
+.dates-section:hover {
+    box-shadow: 0 10px 30px rgba(217, 119, 6, 0.08);
+}
+
+.dates-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 15px;
+    align-items: stretch;
+}
+
+@media (max-width: 768px) {
+    .dates-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.date-box {
+    background: #fff;
+    border: 1px solid #f0e6d2;
+    border-radius: 12px;
+    padding: 12px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: border-color 0.3s;
+}
+
+.date-box:hover {
+    border-color: #d97706;
+}
+
+.date-box label {
+    font-size: 12px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.date-input {
+    width: 100%;
+    background: #fffdf9;
+    border: 1px solid #f3ebd8;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-family: inherit;
+    color: #222;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.date-input:focus {
+    border-color: #d97706;
+}
+
+.nights-badge-box {
+    background: linear-gradient(135deg, #d97706, #b45309);
+    border-radius: 12px;
+    padding: 12px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 90px;
+    color: #fff;
+}
+
+.nights-badge-box .nights-count {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+    font-family: 'Cinzel', serif;
+}
+
+.nights-badge-box .nights-label {
+    font-size: 11px;
+    opacity: 0.9;
+    margin-top: 4px;
+}
+
+.date-error-text {
+    color: #dc2626;
+    font-size: 12px;
+    margin: 10px 0 0 0;
+}
+
 .cost-calculator-container {
     background: #fffdf9;
     border: 1px solid #f3ebd8;

@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once '../config/config.php';
 include '../config/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -11,10 +12,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password     = $_POST['password'];
     $confirm_pass = $_POST['confirm_password'];
 
+    // Only allow safe, internal redirect targets like "pages/details.php?id=5"
+    $redirect = $_POST['redirect'] ?? '';
+    if ($redirect !== '' && !preg_match('/^pages\/[a-zA-Z0-9_\-.]+\.php(\?[a-zA-Z0-9_\-.=&]*)?$/', $redirect)) {
+        $redirect = '';
+    }
 
     function backWithError($message) {
+        global $redirect;
         $_SESSION['error'] = $message;
         $_SESSION['old'] = $_POST; 
+        $_SESSION['old_redirect'] = $redirect;
         header("Location: ../pages/register.php");
         exit();
     }
@@ -51,9 +59,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
         // if it success delete data 
-        unset($_SESSION['old']); 
+        unset($_SESSION['old']);
+        unset($_SESSION['old_redirect']);
         $_SESSION['success'] = "Account created successfully!";
-        header("Location: ../pages/login.php");
+        header("Location: ../pages/login.php" . ($redirect !== '' ? '?redirect=' . urlencode($redirect) : ''));
         exit();
     } else {
         backWithError("Registration error. Please try again.");

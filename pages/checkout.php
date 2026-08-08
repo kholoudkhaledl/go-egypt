@@ -43,6 +43,7 @@ if (!$success) {
     $nights          = isset($booking['nights']) ? (int)$booking['nights'] : 0;
     $entry_total     = isset($booking['entry_total']) ? (float)$booking['entry_total'] : 0;
     $trans_total     = isset($booking['trans_total']) ? (float)$booking['trans_total'] : 0;
+    $trans_cars      = isset($booking['trans_cars']) ? max(1, (int)$booking['trans_cars']) : 1;
     $guide_total     = isset($booking['guide_total']) ? (float)$booking['guide_total'] : 0;
     $taxes           = isset($booking['taxes']) ? (float)$booking['taxes'] : 12;
     $hotel_total     = $hotel_price * $nights;
@@ -112,7 +113,7 @@ if (!$success) {
                     <span class="total-price">$<?php echo number_format((float)$success['total_price'], 2); ?></span>
                 </div>
 
-                <a href="../index.php" class="btn-submit" style="display:block; text-align:center; text-decoration:none; box-sizing:border-box;">Back to Home</a>
+                <a href="profile.php" class="btn-submit" style="display:block; text-align:center; text-decoration:none; box-sizing:border-box;">View My Bookings</a>
                 <a href="landmarks.php" class="btn-submit-secondary" style="display:block; text-align:center; text-decoration:none; box-sizing:border-box;">Explore More Landmarks</a>
             </div>
         </div>
@@ -135,6 +136,7 @@ if (!$success) {
             <input type="hidden" name="nights" value="<?php echo (int)$nights; ?>">
             <input type="hidden" name="entry_total" value="<?php echo htmlspecialchars($entry_total); ?>">
             <input type="hidden" name="trans_total" value="<?php echo htmlspecialchars($trans_total); ?>">
+            <input type="hidden" name="trans_cars" value="<?php echo (int)$trans_cars; ?>">
             <input type="hidden" name="guide_total" value="<?php echo htmlspecialchars($guide_total); ?>">
             <input type="hidden" name="taxes" value="<?php echo htmlspecialchars($taxes); ?>">
             <input type="hidden" name="grand_total" value="<?php echo htmlspecialchars($grand_total); ?>">
@@ -281,7 +283,7 @@ if (!$success) {
                     </div>
                     <?php if ($trans_total > 0): ?>
                     <div class="row-space">
-                        <span>Transportation:</span>
+                        <span>Transportation<?php echo $trans_cars > 1 ? ' (' . (int)$trans_cars . ' Cars)' : ''; ?>:</span>
                         <span>$<?php echo number_format($trans_total, 2); ?></span>
                     </div>
                     <?php endif; ?>

@@ -1,4 +1,4 @@
-<?php
+g<?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -8,9 +8,17 @@ require_once __DIR__ . '/../config/config.php';
 $old = $_SESSION['old'] ?? [];
 unset($_SESSION['old']);
 
-// If the user is already logged in, redirect them to the home page
+// Only allow safe, internal redirect targets like "pages/details.php?id=5"
+$redirect = $_GET['redirect'] ?? ($_SESSION['old_redirect'] ?? '');
+unset($_SESSION['old_redirect']);
+if ($redirect !== '' && !preg_match('/^pages\/[a-zA-Z0-9_\-.]+\.php(\?[a-zA-Z0-9_\-.=&]*)?$/', $redirect)) {
+    $redirect = '';
+}
+
+// If the user is already logged in, send them straight to where they
+// were headed (if any), otherwise the home page.
 if (isset($_SESSION['user']['id'])) {
-    header("Location: " . BASE_URL . "index.php");
+    header("Location: " . BASE_URL . ($redirect !== '' ? $redirect : 'index.php'));
     exit();
 }
 ?>
@@ -55,6 +63,7 @@ if (isset($_SESSION['user']['id'])) {
 
         <!-- Form Elements -->
         <form action="../action/register_action.php" method="POST" class="d-flex flex-column gap-3">
+            <input type="hidden" name="redirect" value="<?php echo htmlspecialchars($redirect); ?>">
             
             <!-- First Name -->
             <div>
@@ -165,7 +174,7 @@ if (isset($_SESSION['user']['id'])) {
         <div class="text-center">
             <p class="m-0 footer-text">
                 Already have an account? 
-                <a href="login.php" class="link-primary-custom ms-1">Sign In</a>
+                <a href="login.php<?php echo $redirect !== '' ? '?redirect=' . urlencode($redirect) : ''; ?>" class="link-primary-custom ms-1">Sign In</a>
             </p>
         </div>
 
@@ -174,18 +183,6 @@ if (isset($_SESSION['user']['id'])) {
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        document.querySelectorAll('.toggle-password').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                const input = this.previousElementSibling;
-                const icon = this.querySelector('span');
-                if (!input) return;
-
-                const isPassword = input.type === 'password';
-                input.type = isPassword ? 'text' : 'password';
-                if (icon) icon.textContent = isPassword ? 'visibility_off' : 'visibility';
-            });
-        });
-    </script>
+    <script src="../assets/js/register.js"></script>
 </body>
 </html>

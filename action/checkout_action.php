@@ -30,6 +30,7 @@ $hotel_price    = isset($_POST['hotel_price']) ? (float)$_POST['hotel_price'] : 
 $nights         = isset($_POST['nights']) ? (int)$_POST['nights'] : 0;
 $entry_total    = isset($_POST['entry_total']) ? (float)$_POST['entry_total'] : 0;
 $trans_total    = isset($_POST['trans_total']) ? (float)$_POST['trans_total'] : 0;
+$trans_cars     = isset($_POST['trans_cars']) ? max(1, (int)$_POST['trans_cars']) : 1;
 $guide_total    = isset($_POST['guide_total']) ? (float)$_POST['guide_total'] : 0;
 $taxes          = isset($_POST['taxes']) ? (float)$_POST['taxes'] : 12;
 $grand_total    = isset($_POST['grand_total']) ? (float)$_POST['grand_total'] : 0;
@@ -87,9 +88,9 @@ $booking_ref = 'GE-' . strtoupper(substr(bin2hex(random_bytes(4)), 0, 6));
 $sql = "INSERT INTO bookings
     (booking_ref, user_id, landmark_id, landmark_title, region, image, checkin_date, checkout_date,
      adults, children, hotel_name, hotel_price_per_night, nights, entry_ticket_total, transportation_total,
-     tour_guide_total, taxes_fees, total_price, full_name, email, phone, nationality, payment_method,
+     trans_cars, tour_guide_total, taxes_fees, total_price, full_name, email, phone, nationality, payment_method,
      card_last4, wallet_number)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
 
@@ -98,7 +99,7 @@ if (!$stmt) {
 }
 
 $stmt->bind_param(
-    "siisssssiisdidddddsssssss",
+    "siisssssiisdiddidddsssssss",
     $booking_ref,
     $user_id,
     $landmark_id,
@@ -114,6 +115,7 @@ $stmt->bind_param(
     $nights,
     $entry_total,
     $trans_total,
+    $trans_cars,
     $guide_total,
     $taxes,
     $grand_total,

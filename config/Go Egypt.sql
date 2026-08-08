@@ -86,6 +86,7 @@ CREATE TABLE `bookings` (
   `nights` int(11) NOT NULL DEFAULT 0,
   `entry_ticket_total` decimal(10,2) NOT NULL DEFAULT 0.00,
   `transportation_total` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `trans_cars` int(11) NOT NULL DEFAULT 1,
   `tour_guide_total` decimal(10,2) NOT NULL DEFAULT 0.00,
   `taxes_fees` decimal(10,2) NOT NULL DEFAULT 0.00,
   `total_price` decimal(10,2) NOT NULL DEFAULT 0.00,
@@ -98,6 +99,15 @@ CREATE TABLE `bookings` (
   `wallet_number` varchar(100) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Migration for existing databases (run this ONCE if your `bookings` table
+-- was created before the `trans_cars` column existed, e.g. via phpMyAdmin
+-- or the MySQL CLI). It's safe to skip if you're importing this whole file
+-- fresh into a new/empty database, since the CREATE TABLE above already
+-- includes the column.
+--
+-- ALTER TABLE `bookings` ADD COLUMN `trans_cars` int(11) NOT NULL DEFAULT 1 AFTER `transportation_total`;
 
 -- --------------------------------------------------------
 
